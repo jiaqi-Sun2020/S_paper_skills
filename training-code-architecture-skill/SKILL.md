@@ -1,7 +1,7 @@
 ---
 name: training-code-architecture
 # Keep this description architecture-first. The trigger is code architecture/template generation, not a specific task such as QWTA, static graph, traffic forecasting, or MSE regression.
-description: Use this skill when the user asks to create, refactor, or standardize a reusable machine-learning training code architecture from an existing code example. Trigger for requests about preserving project architecture, main.py -> train(args) workflow, config-driven training, factories, adapters, training loops, checkpoint/log/result saving, experiment reproducibility, static/dynamic graph compatibility, or making a template that can be reused across different model/data/task types.
+description: Use this skill when the user asks to create, refactor, or standardize a reusable machine-learning training code architecture from an existing code example. Trigger for requests about preserving project architecture, main.py to train(args) workflow, config-driven training, factories, adapters, training loops, checkpoint/log/result saving, experiment reproducibility, static/dynamic graph compatibility, or making a template that can be reused across different model/data/task types.
 ---
 
 # Training Code Architecture Skill
