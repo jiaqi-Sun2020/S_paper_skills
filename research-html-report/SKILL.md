@@ -1,169 +1,206 @@
 ---
 name: research-html-report
-description: Use when Codex needs to synthesize research logic, innovation points, paper outlines, experiment design, model claims, ablations, datasets, and mechanism analysis into a polished standalone HTML webpage or report. Use after research-logic or experiment-design outputs, or when the user asks to present research ideas as an HTML page, visual research brief, paper planning dashboard, shareable project summary, printable academic report, or paper-style HTML with figures, tables, equations, citations, and publication-like CSS.
+description: Use when Codex needs to synthesize research logic, innovation points, paper outlines, experiment design, model claims, ablations, datasets, and mechanism analysis into a polished standalone HTML webpage or report. Use after research-logic or experiment-design outputs, or when the user asks to present research ideas as an HTML page, visual research brief, paper planning dashboard, shareable project summary, printable academic report, or paper-style HTML with figures, tables, equations, citations, publication-like CSS, and explicit explanations for all research, visual, formula, table, and diagram elements.
 ---
 
 # Research HTML Report
 
 ## Purpose
 
-Use this skill to convert research reasoning into a clear, polished, standalone HTML webpage. The output should help the user inspect the whole paper idea at once: motivation, core claim, innovation points, method logic, experiment design, risks, and next steps.
-
-This skill is an output-design layer. It can consume results produced by research-logic and experiment-design, then render them into an HTML artifact.
-
-## Acknowledgement
-
-This skill is inspired in part by [nexu-io/html-anything](https://github.com/nexu-io/html-anything), especially its HTML-first approach: treat HTML as the primary expressive medium rather than a mechanical export target from Markdown.
-
-Do not copy project-specific branding, templates, or source text from that project into generated user reports unless the user explicitly asks for that style. Use the inspiration as a design principle: standalone HTML, deliberate layout, and content shaped for visual reading.
-
-This skill is also inspired in part by PubCSS-style academic HTML publishing patterns: use semantic HTML and CSS counters to make web reports feel closer to printable research artifacts. Do not copy PubCSS source stylesheets wholesale; borrow the ideas of publication-grade structure, figure/table/equation numbering, print CSS, and citation-aware markup.
-
-## Core Principle
-
-Do not merely dump Markdown into HTML. Transform the research idea into a structured visual report.
+Turn research reasoning into a polished standalone HTML report. The page must help the reader inspect the paper idea at once: motivation, claim, mechanism, innovation, experiment evidence, risks, and next steps.
 
 Use this flow:
 
 ```text
-research idea -> claim -> innovation points -> method logic -> experiment evidence -> risk boundaries -> HTML report
+research idea -> claim -> innovation -> mechanism -> experiment evidence -> risk boundary -> HTML report
 ```
 
-The HTML page should make the argument easier to evaluate, not just prettier.
+This skill is an output-design layer. Use research-logic first when the contribution is unclear, and experiment-design first when the validation plan is weak.
 
-## HTML-First Rules
+## Design Principles
 
-Borrow these HTML-first principles:
+- Treat HTML as the final artifact, not a Markdown wrapper.
+- Keep the report self-contained unless the user explicitly allows external assets or libraries.
+- Do not invent fake results, metrics, citations, datasets, or placeholder image URLs.
+- Mark missing evidence as concrete `TODO`, not as polished certainty.
+- Use layout to clarify reasoning: cards for repeated claims, tables for evidence, diagrams for mechanisms, and LaTeX-style panels for formulas.
+- Explain every meaningful visible element: badges, variables, arrows, colors, table columns, formula symbols, risks, abbreviations, and TODO markers.
+- Keep visual design academic, restrained, readable, responsive, and print-friendly.
 
-- Treat the webpage as the final artifact, not as a wrapper around Markdown.
-- Use layout to clarify thinking: grids for comparison, tables for evidence, cards for repeated claims, and code blocks for equations.
-- Generate a complete `.html` file that opens directly in a browser.
-- Prefer embedded CSS and inline SVG/CSS diagrams over external assets when a diagram is simple.
-- Do not invent fake numbers, fake citations, fake datasets, or placeholder image URLs.
-- If evidence is missing, mark it as a concrete TODO rather than hiding it behind polished design.
-- Keep the page self-contained unless the user explicitly requests external libraries or assets.
+## Acknowledgements
 
-## Research Brief Pattern
+This skill is inspired by:
 
-For research ideas that need to feel more polished than a plain document, use a visual research brief pattern.
+- HTML-first thinking from [nexu-io/html-anything](https://github.com/nexu-io/html-anything).
+- PubCSS-style academic HTML publishing ideas: semantic structure, counters, printable pages, figure/table/equation numbering, and citation-aware markup.
 
-Required elements:
+Do not copy either project's source text, branding, or stylesheet wholesale.
 
-- **Dual-zone hero**: left side states the research hook and central claim; right side shows 2-4 status cards such as contribution level, current evidence, best claim target, and next blocker.
-- **Section kickers**: each major section should have a short label such as `Problem Gap`, `Claim`, `Innovation Map`, `Method Logic`, `Experiment Design`, `Evidence Matrix`, `Risk Ledger`, or `Minimum Viable Plan`.
-- **Inline logic diagram**: when the idea has a mechanism or pipeline, include a simple inline SVG or CSS diagram that shows the transformation, for example `Existing model -> Proposed shift -> Claim test`.
-- **Evidence-aware TODOs**: mark missing real-world datasets, baselines, metrics, or results explicitly as `TODO`; do not let visual polish imply completed evidence.
-- **Risk ledger**: include a visually distinct section for the strongest reviewer objections and how the claim should be bounded.
-- **Next-step ledger**: end with a short priority table or ledger (`P0`, `P1`, `P2`) that tells the user what to implement or validate next.
+## Required Structure
 
-Use this pattern especially when the user says the output is too plain, too document-like, or should look like a shareable research brief.
+Generate a complete `.html` file with embedded CSS. Use semantic HTML such as:
 
-## Publication Mode Pattern
-
-When the user asks for a more paper-like, academic, printable, ACM/IEEE-inspired, or publication-grade HTML report, use a publication mode instead of a dashboard-only page.
-
-Required elements:
-
-- **Paper header**: include a title, short subtitle, authors/affiliation placeholders only when provided, abstract, keywords, and contribution summary.
-- **Article structure**: use `<article>` as the main container, `<section>` for numbered sections, `<figure>`/`<figcaption>` for diagrams, `<table>`/`<caption>` for experiment plans, and `<div class="equation">` for equations.
-- **CSS counters**: number sections, figures, tables, equations, and references with CSS counters when the report reads like a paper draft.
-- **Print CSS**: include `@media print` and `@page` rules with a stable page size, margins, monochrome-safe colors, and rules that avoid breaking figures/tables/equations across pages.
-- **Two reading modes**: preserve web readability while making print/PDF export clean. Use a single-column article for dense reasoning; use two-column print layout only if tables and equations remain legible.
-- **Publication typography**: prefer restrained serif body text or a serif/sans pairing, 65-85 character line lengths, compact headings, clear captions, and no oversized hero typography.
-- **Citation scaffolding**: only include real citations if provided. If citations are missing, add a visible `TODO: add related work citations` note rather than fake references.
-- **Caption discipline**: every figure/table caption should explain the claim being tested or the evidence it summarizes, not merely name the object.
-
-Use this pattern when the output should support a paper draft, lab memo, thesis note, arXiv-style concept page, or print-to-PDF artifact.
-
-## When to Use Other Skills First
-
-If the research idea is still shallow or unclear, first use research-logic to reconstruct the mechanism-level contribution.
-
-If the experiments are weak or unspecified, first use experiment-design to define research questions, baselines, ablations, metrics, and claim boundaries.
-
-Then use this skill to synthesize both into a single HTML report.
-
-## Required HTML Report Structure
-
-Generate a standalone `.html` file with embedded CSS and minimal embedded JavaScript only when useful. Do not require a build step.
+```html
+<header>, <main>, <article>, <section>, <figure>, <figcaption>, <table>, <caption>, <aside>
+```
 
 Recommended sections:
 
-1. Hero summary: title, one-sentence claim, status tags.
-2. Research motivation: problem, gap, why existing methods are insufficient.
-3. Core claim: precise paper claim and claim boundary.
+1. Hero or paper header: title, one-sentence claim, status tags.
+2. Motivation: problem, gap, why existing methods are insufficient.
+3. Central claim: precise claim and claim boundary.
 4. Innovation map: 3-5 contribution cards.
 5. Method logic: state variables, transition rule, update rule, readout.
-6. Shallow vs deep integration: show why this is not module stacking.
+6. Deep integration: why this is not shallow module stacking.
 7. Experiment design: RQs, datasets, baselines, ablations, metrics.
-8. Evidence matrix: what result would support each claim.
-9. Failure cases and risks: where the method may fail.
-10. Minimum viable plan: next experiments and implementation tasks.
+8. Evidence matrix: what supports each claim.
+9. Risk ledger: failure modes and reviewer objections.
+10. Minimum viable plan: next implementation and validation steps.
+11. Citation ledger: real references if provided; otherwise explicit citation TODOs.
 
-## Visual Design Rules
+## Report Modes
 
-Use a clean academic dashboard style:
+### Research Brief
 
-- restrained colors with strong contrast;
-- no decorative blobs or generic gradients;
-- responsive layout for desktop and mobile;
-- cards only for repeated items such as innovations, baselines, ablations, or risks;
-- tables for datasets, metrics, and evidence mapping;
-- code/math blocks for equations and transition logic;
-- a sticky or compact table of contents when the page is long;
-- readable typography and enough spacing for dense technical content.
-- use 2-4 coordinated semantic colors at most, such as one main accent plus muted warning/evidence colors;
-- add visual hierarchy with section labels, status cards, diagrams, and ledgers rather than with decoration;
-- make the first viewport immediately signal the research topic, central claim, and evidence maturity.
+Use for shareable planning reports and visual research summaries.
 
-Prefer semantic HTML:
+Must include:
+
+- dual-zone hero with central claim and 2-4 status cards;
+- section kickers such as `Claim`, `Innovation Map`, `Method Logic`, `Experiment Design`, `Evidence Matrix`, `Risk Ledger`;
+- at least one mechanism or model flow diagram;
+- evidence-aware TODOs;
+- risk ledger;
+- next-step ledger such as `P0`, `P1`, `P2`.
+
+### Publication Mode
+
+Use for paper-like, printable, ACM/IEEE-inspired, lab memo, thesis note, or arXiv-style concept pages.
+
+Must include:
+
+- title, abstract, keywords, and contribution summary;
+- numbered sections, figures, tables, equations, and references using CSS counters when useful;
+- `@page` and `@media print` rules;
+- readable formulas, captions, legends, and claim boundaries;
+- no fake citations. If citations are missing, add `TODO: add related-work citations`.
+
+## Formula Rules
+
+Important equations must be bright, readable, labeled, and preferably LaTeX-style.
+
+Do not render key formulas as dark monospace code blocks.
+
+Use a bright formula panel:
 
 ```html
-<header>, <main>, <section>, <article>, <table>, <figure>, <aside>
+<div class="equation">
+  <div class="equation-title">State transition</div>
+  <div class="formula-row">
+    <div class="formula-label">Inter-event evolution</div>
+    <div class="math-display">\[
+      \Psi(t_k^-)=\exp\!\left(-iH(t_{k-1})\Delta t_k\right)\Psi(t_{k-1}^+)
+    \]</div>
+    <p class="formula-note">Explain what this equation does.</p>
+  </div>
+  <details class="latex-source">
+    <summary>LaTeX source</summary>
+    <code>\Psi(t_k^-)=...</code>
+  </details>
+</div>
 ```
 
-For publication mode, add a compact embedded style pattern like:
+Rules:
 
-```css
-article { max-width: 900px; margin: 0 auto; }
-section { counter-increment: section; }
-section > h2::before { content: counter(section) ". "; }
-figure { counter-increment: figure; break-inside: avoid; }
-figcaption::before { content: "Figure " counter(figure) ". "; font-weight: 700; }
-table { counter-increment: table; break-inside: avoid; }
-caption::before { content: "Table " counter(table) ". "; font-weight: 700; }
-.equation { counter-increment: equation; break-inside: avoid; }
-.equation::after { content: "(" counter(equation) ")"; float: right; }
-@page { size: A4; margin: 18mm 16mm; }
-@media print { nav, .no-print { display: none; } body { background: #fff; } }
+- Use LaTeX display math for central formulas when the user asks for LaTeX or the method is equation-heavy.
+- If using MathJax, include minimal config. If external resources are not allowed, show readable LaTeX source and explanation without relying on rendering.
+- Split multi-step equations into labeled rows such as `Inter-event evolution`, `Event correction`, `Prediction readout`.
+- Add a symbol legend for non-obvious symbols.
+- Do not expose raw LaTeX fragments such as `t_{k-1}` in prose, tables, SVG text, captions, or status cards; use inline MathJax, HTML sub/sup, Unicode, MathML, or a clear fallback.
+- Keep LaTeX source only inside formula blocks or explicit source details.
+
+## Diagram Rules
+
+For model or algorithm reports, include a model flow diagram near the method section.
+
+It should show:
+
+```text
+input / event / graph
+-> state encoder
+-> core operator or mechanism
+-> update module
+-> readout
+-> loss / metric / prediction target
 ```
 
-Adapt this pattern instead of copying an external stylesheet.
+Rules:
 
-## Content Transformation Rules
+- Prefer inline SVG or CSS boxes so the report remains standalone.
+- Label each stage by role, not only module name.
+- Explain every node, arrow, color, branch, operator, and formula-like label in the caption or a diagram legend.
+- If a diagram label contains `H(t)=f(A,w,s)`, define `H(t)`, `f`, `A`, `w`, and `s`, and say why this construction matters.
+- Avoid raw LaTeX in SVG text because MathJax will not render it there.
+- Avoid decorative-only diagrams.
+
+## Table Rules
+
+Tables must be readable research artifacts.
+
+- Use meaningful captions that explain the claim or evidence summarized.
+- Do not use wide `letter-spacing`, forced all-caps, or decorative tracking in table headers.
+- Preserve readable headers such as `Evidence Needed`, `Success Criterion`, and `Claim Supported`.
+- Use `letter-spacing: 0`, normal casing, and natural wrapping.
+- Explain non-obvious columns in the caption or a short note.
+- Use tables for experiment plans, ablations, datasets, metrics, evidence matrices, risks, and next-step ledgers.
+
+## Element Explanation Rules
+
+Every meaningful element must answer:
+
+```text
+What is it?
+Why is it here?
+How should it affect the research argument?
+```
+
+Use the smallest useful explanation surface:
+
+```text
+caption -> figures and tables
+symbol legend -> formulas
+diagram legend -> arrows, colors, modules
+status note -> badges and state labels
+column note -> ambiguous table headers
+inline definition -> abbreviations
+```
+
+Explain status cards, badges, colors, variables, formulas, abbreviations, method names, table fields, figure nodes, TODO markers, risks, and priority labels. Remove decorative-only elements that cannot be explained.
+
+## Content Rules
 
 ### Central Claim
 
-Turn vague text into:
+Rewrite vague ideas as:
 
 ```text
 This paper claims that ___ improves/changes ___ because ___.
 ```
 
-In HTML, place it near the top as a highlighted claim block.
+Place the claim near the top and state its boundary.
 
-### Innovation Points
+### Innovation Cards
 
-Each innovation card should include:
+Each card must include:
 
 - title;
 - mechanism;
 - why it is new;
-- what experiment validates it.
+- validation path.
 
 ### Method Logic
 
-Show the model as a sequence:
+Show the method as:
 
 ```text
 state after previous event
@@ -173,7 +210,7 @@ state after previous event
 -> prediction
 ```
 
-For CTQW dynamic graph ideas, include:
+For CTQW dynamic graph ideas, render equations as formula panels, not code:
 
 ```text
 Psi(t_k^-) = exp(-i H(t_{k-1}) Delta t_k) Psi(t_{k-1}^+)
@@ -182,52 +219,16 @@ Psi(t_k^+) = EventUpdate(Psi(t_k^-), e_k)
 
 ### Experiment Plan
 
-Present experiments as tables:
+Use tables:
 
 ```text
 Research Question | Evidence Needed | Dataset | Baseline | Metric | Success Criterion
-```
-
-Also include an ablation table:
-
-```text
 Variant | What It Tests | Expected Outcome | Claim Supported
-```
-
-### Publication Components
-
-When using publication mode, structure the report like:
-
-```text
-Title
-Abstract
-Keywords
-1. Introduction / Motivation
-2. Method
-3. Experimental Design
-4. Expected Evidence and Ablations
-5. Threats to Validity
-6. Minimum Implementation Plan
-References or TODO citation ledger
-```
-
-Include figures and tables with captions:
-
-```html
-<figure id="fig-method">
-  <svg><!-- mechanism diagram --></svg>
-  <figcaption>Mechanism-level integration of inter-event CTQW evolution and event correction.</figcaption>
-</figure>
-
-<table id="tab-ablation">
-  <caption>Ablations required to separate CTQW evolution from generic continuous propagation.</caption>
-  ...
-</table>
 ```
 
 ### Claim Discipline
 
-End the page with explicit claim boundaries:
+End with:
 
 ```text
 If results show ___, we can claim ___.
@@ -236,46 +237,36 @@ If results show ___, we must weaken the claim to ___.
 
 ## Output Requirements
 
-When asked to create an HTML report:
-
-1. Choose a clear file path, usually `reports/<topic-name>.html` or `outputs/reports/<topic-name>.html`.
+1. Choose a clear path, usually `reports/<topic-name>.html`.
 2. Create parent directories if needed.
 3. Write a complete standalone HTML file.
 4. Use embedded CSS.
-5. Avoid external CDN dependencies unless the user explicitly asks.
-6. Include no placeholder sections unless marked as TODO with a concrete next action.
-7. Include a subtle acknowledgement footer only when the report itself is about HTML generation or when the user asks for acknowledgements; otherwise keep acknowledgements in the skill documentation.
-8. After writing, report the file path and summarize what the page contains.
-9. If using publication mode, make the file printable without a build step and verify that figures, tables, equations, and citations have meaningful labels or TODOs.
+5. Avoid external CDN dependencies unless the user allows them or rendering requires them; if used, make fallback content readable.
+6. Include no placeholder sections unless marked as actionable TODOs.
+7. Include acknowledgement footer only when the user asks or the report is about HTML generation.
+8. Report the file path and summarize the page contents.
 
 ## Quality Checklist
 
 Before finishing, verify:
 
-1. The `<title>` is specific and not a placeholder.
-2. The hero states the exact research claim.
+1. Title is specific.
+2. Hero/header states the exact claim.
 3. Every innovation card has a validation path.
-4. Every table has meaningful headers and no empty placeholder rows.
-5. The page has clear claim boundaries.
-6. No section is only decorative.
-7. Mobile layout remains readable.
-8. Fonts, colors, spacing, and card styles are consistent.
-9. There are no unclosed tags or broken anchor links.
-10. The final file can open directly in a browser.
-11. If using the research brief pattern, the page includes status cards, at least one mechanism diagram, a risk ledger, and a next-step ledger.
-12. Any missing evidence is visibly marked as TODO rather than implied as complete.
-13. If using publication mode, sections, figures, tables, equations, and references are numbered consistently.
-14. Print styles do not hide essential content or split a key figure/table/equation awkwardly.
+4. Every table has meaningful headers, captions, and no empty rows.
+5. Claims have boundaries.
+6. No section or visual element is decorative-only.
+7. Mobile and print layouts are readable.
+8. Fonts, colors, spacing, and cards are consistent.
+9. Tags are closed and anchors work.
+10. Figures, tables, equations, and references are numbered when in publication mode.
+11. Formulas are bright, readable, LaTeX-style when needed, and symbol-explained.
+12. Model reports include a model flow diagram.
+13. Table headers use normal letter spacing and readable casing.
+14. Every meaningful visible element has a caption, legend, note, or nearby explanation.
+15. Missing evidence is marked as TODO, not implied as complete.
 
-## Recommended Invocation
-
-```text
-Use $research-logic and $experiment-design first, then use $research-html-report to create a standalone HTML page summarizing the paper idea, innovation points, method logic, and experiment plan.
-```
-
-## Minimal HTML Skeleton
-
-Use this skeleton as a starting point when useful:
+## Minimal Skeleton
 
 ```html
 <!doctype html>
@@ -286,25 +277,23 @@ Use this skeleton as a starting point when useful:
   <title>Research Plan</title>
   <style>
     :root { color-scheme: light; }
-    body { margin: 0; font-family: Arial, sans-serif; line-height: 1.6; color: #172033; background: #f7f8fb; }
-    main { max-width: 1180px; margin: 0 auto; padding: 32px 20px; }
+    body { margin: 0; font-family: Arial, sans-serif; color: #172033; background: #f7f8fb; line-height: 1.6; }
+    main, article { max-width: 1180px; margin: 0 auto; padding: 32px 20px; }
     section { margin: 28px 0; }
     .panel { background: #fff; border: 1px solid #dde3ee; border-radius: 8px; padding: 20px; }
-    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
     table { width: 100%; border-collapse: collapse; }
     th, td { border-bottom: 1px solid #e2e7f0; padding: 10px; text-align: left; vertical-align: top; }
-    code, pre { background: #eef2f7; border-radius: 6px; }
-    pre { padding: 14px; overflow: auto; }
+    th { letter-spacing: 0; text-transform: none; }
+    figure, table, .equation { break-inside: avoid; }
+    @page { size: A4; margin: 18mm 16mm; }
   </style>
 </head>
 <body>
-  <main>
-    <header></header>
-  </main>
+  <main></main>
 </body>
 </html>
 ```
 
 ## One-Sentence Summary
 
-This skill turns research reasoning and experiment design into a standalone HTML research brief that makes the paper's claim, mechanism, evidence, and risks easy to inspect.
+Create standalone HTML research reports that make the claim, mechanism, evidence, risks, formulas, diagrams, and every visible element easy to understand.

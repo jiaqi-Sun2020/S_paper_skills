@@ -71,6 +71,20 @@ Path: `training-code-architecture-skill/`
 python .agents\skills\training-code-architecture-skill\scripts\create_project.py --help
 ```
 
+### skill-audit-refactor
+
+Path: `skill-audit-refactor/`
+
+用于审核、精简、重构或拆分其他 Codex skills。重点是在不损失实际能力的前提下减少上下文占用，并判断内容应该保留在 `SKILL.md`，还是移动到 `references/`、`scripts/`、`assets/`，或者拆成独立 skill。
+
+适合问题：
+
+- 某个 skill 是否太长、太宽泛或重复；
+- `description` 是否能正确触发；
+- 是否需要拆分成多个 skill；
+- 哪些内容应该压缩、移动或删除；
+- 精简后如何验证能力没有下降。
+
 ## Suggested Skill Workflow
 
 对于一个新的研究想法或模型方法，推荐按下面顺序使用：
@@ -128,6 +142,9 @@ research-logic
 |   |-- SKILL.md
 |   `-- agents/openai.yaml
 |-- research-html-report/
+|   |-- SKILL.md
+|   `-- agents/openai.yaml
+|-- skill-audit-refactor/
 |   |-- SKILL.md
 |   `-- agents/openai.yaml
 `-- training-code-architecture-skill/
