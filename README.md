@@ -1,6 +1,6 @@
 # Research Method Skills
 
-这个目录存放当前仓库使用的本地 Codex skills，主要服务于通用研究方法整合、论文创新设计、实验验证、研究报告生成和训练代码架构整理。
+这个目录存放当前仓库使用的本地 Codex skills，主要服务于通用研究方法整合、论文创新设计、实验验证、研究报告生成、训练代码架构整理、LaTeX 论文交付 pipeline，以及 skill 本身的创建和维护。
 
 CTQW 与动态图神经网络只是这些 skills 的一个应用示例，不是本目录的唯一目标。后续也可以用于图学习、物理启发模型、时序模型、多模态模型、优化算法、系统方法或其他机器学习论文想法。
 
@@ -71,9 +71,29 @@ Path: `training-code-architecture-skill/`
 python .agents\skills\training-code-architecture-skill\scripts\create_project.py --help
 ```
 
+### latex-paper-build-skill
+
+Path: `latex-paper-build-skill/`
+
+用于把研究想法或已有 `.tex` 论文整理成完整论文交付 pipeline。它负责 LaTeX 架构、单体论文拆分、REVTeX/ctex/fontspec/BibTeX 约定、figure/bib 路径检查、XeLaTeX/latexmk 编译，以及将 research-logic、experiment-design、training-code-architecture 和 research-html-report 串成连续流程。
+
+适合问题：
+
+- 将已有单体 LaTeX 论文拆成可维护框架；
+- 为论文创建 `main.tex`、`preamble.tex`、`frontmatter.tex`、`sections/`、`figures/`、`references/`；
+- 生成从研究逻辑到提交检查的完整 paper pipeline；
+- 检查 bib 漂移、图片路径、编译命令和提交前机械问题。
+
+可用脚本：
+
+```powershell
+python latex-paper-build-skill\scripts\create_paper_pipeline.py --project path\to\paper_pipeline --title "Paper Title"
+python latex-paper-build-skill\scripts\scaffold_latex_paper.py --source path\to\paper.tex --out path\to\framework --copy-figures
+```
+
 ### skill-audit-refactor
 
-Path: `skill-audit-refactor/`
+Path: `util_skills/skill-audit-refactor/`
 
 用于审核、精简、重构或拆分其他 Codex skills。重点是在不损失实际能力的前提下减少上下文占用，并判断内容应该保留在 `SKILL.md`，还是移动到 `references/`、`scripts/`、`assets/`，或者拆成独立 skill。
 
@@ -85,6 +105,19 @@ Path: `skill-audit-refactor/`
 - 哪些内容应该压缩、移动或删除；
 - 精简后如何验证能力没有下降。
 
+### interactive-skill-builder
+
+Path: `util_skills/interactive-skill-builder/`
+
+用于基于作者访谈创建或更新 Codex skill。它不会直接跳到写文件，而是先询问作者的具体需求、触发场景、输出形式、资源需求、目标路径、风险动作和验证方式，再形成规格说明，经过确认和预创建审核后才创建或修改 skill。
+
+适合问题：
+
+- 想把一个工作流沉淀成新的 Codex skill；
+- 需要先问清楚作者需求，再决定 skill 名称、scope 和资源结构；
+- 创建前需要确认 destination、trigger、references/scripts/assets 和验证计划；
+- 更新 README 或 skill bundle 索引时，需要保持目录、frontmatter 和说明一致。
+
 ## Suggested Skill Workflow
 
 对于一个新的研究想法或模型方法，推荐按下面顺序使用：
@@ -94,6 +127,7 @@ research-logic
 -> experiment-design
 -> research-html-report
 -> training-code-architecture
+-> latex-paper-build-skill
 ```
 
 含义：
@@ -101,7 +135,22 @@ research-logic
 1. 先判断多个方法之间是否形成机制级结合，而不是简单模块拼接。
 2. 再设计能支撑论文 claim 的实验方案。
 3. 然后生成 HTML research brief 或 paper-style report。
-4. 最后把模型和实验落到可复用训练代码架构中。
+4. 把模型和实验落到可复用训练代码架构中。
+5. 最后整理 LaTeX 论文框架、编译路径和提交前检查。
+
+对于创建或维护 skill，推荐按下面顺序使用：
+
+```text
+interactive-skill-builder
+-> skill-audit-refactor
+-> quick_validate.py
+```
+
+含义：
+
+1. 先通过作者访谈形成 skill 规格，并要求明确确认。
+2. 再用审核视角检查 scope、trigger、资源结构和验证计划。
+3. 最后运行官方 validator，确保新增或修改后的 skill 可被 Codex 正确识别。
 
 ## Recommended Three-Step Research Flow
 
@@ -133,7 +182,7 @@ research-logic
 ## Directory Structure
 
 ```text
-.agents/skills/
+S_paper_skills/
 |-- README.md
 |-- LICENSE
 |-- research-logic-skill/
@@ -144,14 +193,25 @@ research-logic
 |-- research-html-report/
 |   |-- SKILL.md
 |   `-- agents/openai.yaml
-|-- skill-audit-refactor/
+|-- latex-paper-build-skill/
 |   |-- SKILL.md
+|   |-- scripts/
+|   |-- references/
+|   |-- assets/
 |   `-- agents/openai.yaml
-`-- training-code-architecture-skill/
-    |-- SKILL.md
-    |-- README.md
-    |-- scripts/create_project.py
-    `-- templates/
+|-- training-code-architecture-skill/
+|   |-- SKILL.md
+|   |-- README.md
+|   |-- scripts/create_project.py
+|   `-- templates/
+`-- util_skills/
+    |-- interactive-skill-builder/
+    |   |-- SKILL.md
+    |   |-- references/
+    |   `-- agents/openai.yaml
+    `-- skill-audit-refactor/
+        |-- SKILL.md
+        `-- agents/openai.yaml
 ```
 
 ## Validation
@@ -169,6 +229,13 @@ python C:\Users\SSS\.codex\skills\.system\skill-creator\scripts\quick_validate.p
 python C:\Users\SSS\.codex\skills\.system\skill-creator\scripts\quick_validate.py .agents\skills\research-html-report
 ```
 
+当前仓库路径下的示例：
+
+```powershell
+python C:\Users\SSS\.codex\skills\.system\skill-creator\scripts\quick_validate.py D:\AI\skill\S_paper_skills\util_skills\interactive-skill-builder
+python C:\Users\SSS\.codex\skills\.system\skill-creator\scripts\quick_validate.py D:\AI\skill\S_paper_skills\latex-paper-build-skill
+```
+
 ## Naming Notes
 
 - `SKILL.md` 的 `name` 应使用小写字母和 hyphen，例如 `research-logic`。
@@ -180,6 +247,8 @@ python C:\Users\SSS\.codex\skills\.system\skill-creator\scripts\quick_validate.p
 - 不要在 skill 中写入虚假论文引用、虚假实验结果或不可复现指标。
 - 大段参考资料应放到 `references/`，不要塞进 `SKILL.md`。
 - 可复用脚本放到 `scripts/`，模板文件放到 `templates/` 或 `assets/`。
+- 创建新 skill 时优先使用 `util_skills/interactive-skill-builder/`，先完成作者访谈、规格确认和预创建审核。
+- 审核或精简已有 skill 时使用 `util_skills/skill-audit-refactor/`。
 - 更新 README 时，同步检查实际目录、`SKILL.md` frontmatter 和可用命令是否一致。
 
 ## License

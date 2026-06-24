@@ -1,0 +1,4 @@
+interface:
+  display_name: "LaTeX Paper Pipeline"
+  short_description: "Build full research-paper pipelines and LaTeX manuscripts."
+  default_prompt: "Use $latex-paper-build-skill to create a complete research-paper pipeline and LaTeX manuscript framework."
