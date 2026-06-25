@@ -25,6 +25,7 @@
 |---|---|---|
 | `interactive-skill-builder` | `util_skills/interactive-skill-builder/` | 通过作者访谈、规格确认和预创建审核来创建或更新 Codex skill。 |
 | `skill-audit-refactor` | `util_skills/skill-audit-refactor/` | 审核、精简、重构或拆分已有 skill，减少上下文占用，同时保留关键能力。 |
+| `project-agent-generator-skill` | `util_skills/project-agent-generator-skill/` | 为陌生项目生成 `.agents/` 或 `.agent/` 上下文目录，包含 AGENTS、项目背景、架构、配置、运行手册和决策记录。 |
 
 ## Skill Details
 
@@ -136,6 +137,23 @@ python latex-paper-build-skill\scripts\scaffold_latex_paper.py --source path\to\
 - 哪些内容应保留在 `SKILL.md`，哪些应移动到 `references/`、`scripts/` 或 `assets/`；
 - 精简后如何验证能力没有下降。
 
+### `project-agent-generator-skill`
+
+用于给陌生代码项目生成 agent-facing 上下文包，帮助后续 Codex/AI agent 不依赖聊天记录也能接手项目。默认输出 `.agents/`，包含 `AGENTS.md`、`PROJECT_CONTEXT.md`、`ARCHITECTURE.md`、`CONFIG_SPEC.md`、`RUNBOOK.md`、`DECISIONS.md` 和 `README.md`；如果用户明确要求，也可生成 `.agent/`。
+
+适合问题：
+
+- 给一个陌生项目生成 agent onboarding 文件；
+- 把项目架构、运行命令、配置入口和决策记录沉淀到仓库；
+- 为未来会话保留稳定项目上下文；
+- 刷新已有 `.agents/` 文档并检查命令、路径和推断是否可信。
+
+常用命令：
+
+```powershell
+python util_skills\project-agent-generator-skill\scripts\generate_project_agents.py path\to\project --out-dir .agents --force
+```
+
 ## Recommended Workflows
 
 ### Research Paper Pipeline
@@ -210,9 +228,14 @@ S_paper_skills/
     |   |-- SKILL.md
     |   |-- agents/openai.yaml
     |   `-- references/
-    `-- skill-audit-refactor/
+    |-- skill-audit-refactor/
+    |   |-- SKILL.md
+    |   `-- agents/openai.yaml
+    `-- project-agent-generator-skill/
         |-- SKILL.md
-        `-- agents/openai.yaml
+        |-- agents/openai.yaml
+        |-- scripts/generate_project_agents.py
+        `-- references/
 ```
 
 ## Validation
@@ -230,6 +253,7 @@ python C:\Users\SSS\.codex\skills\.system\skill-creator\scripts\quick_validate.p
 python C:\Users\SSS\.codex\skills\.system\skill-creator\scripts\quick_validate.py D:\AI\skill\S_paper_skills\latex-paper-build-skill
 python C:\Users\SSS\.codex\skills\.system\skill-creator\scripts\quick_validate.py D:\AI\skill\S_paper_skills\util_skills\interactive-skill-builder
 python C:\Users\SSS\.codex\skills\.system\skill-creator\scripts\quick_validate.py D:\AI\skill\S_paper_skills\util_skills\skill-audit-refactor
+python C:\Users\SSS\.codex\skills\.system\skill-creator\scripts\quick_validate.py D:\AI\skill\S_paper_skills\util_skills\project-agent-generator-skill
 ```
 
 如果新增脚本，也应运行对应的语法或 smoke test，例如：

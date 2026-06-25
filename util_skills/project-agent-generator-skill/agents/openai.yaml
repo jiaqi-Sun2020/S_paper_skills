@@ -1,0 +1,5 @@
+interface:
+  display_name: "Project Agent Generator"
+  short_description: "Generate .agents project context packs"
+  default_prompt: "Use $project-agent-generator-skill to inspect this unfamiliar project and generate a .agents context folder."
+
