@@ -102,16 +102,13 @@ def clean_title(title: str) -> str:
 
 def slug_for_title(title: str, index: int) -> str:
     hints = {
-        "引言": "introduction",
         "introduction": "introduction",
         "theoretical background": "background",
         "background": "background",
         "qwta model": "model",
         "model": "model",
-        "实验": "experiments",
         "experiment": "experiments",
         "experiments": "experiments",
-        "结论": "conclusion",
         "conclusion": "conclusion",
     }
     lowered = clean_title(title).lower()
