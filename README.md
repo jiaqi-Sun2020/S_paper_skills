@@ -14,6 +14,7 @@
 |---|---|---|
 | `research-logic` | `research-logic-skill/` | 分析两个研究方法、模型、理论或机制如何形成机制级结合，而不是停留在模块拼接。 |
 | `experiment-design` | `experiment-design-skill/` | 将模型想法转化为论文级实验设计，包括 research questions、datasets、baselines、ablations、metrics、mechanism checks 和 claim boundaries。 |
+| `data-analysis` | `data-analsys-skill/` | 分析实验数据和论文结果，包含完整性检查、统计检验、effect size、confidence interval 和 claim 支撑边界。 |
 | `research-html-report` | `research-html-report/` | 将研究逻辑、创新点、实验设计、风险边界和下一步计划整理成独立 HTML research brief 或 publication-style report。 |
 | `training-code-architecture` | `training-code-architecture-skill/` | 生成或重构可复用的机器学习训练代码架构，强调 config-driven training、factories、adapters、checkpoint、logs 和 CSV results。 |
 | `latex-paper-build-skill` | `latex-paper-build-skill/` | 将已有 `.tex` 论文或新论文项目整理成完整 LaTeX manuscript framework 和 paper delivery pipeline。 |
@@ -48,6 +49,18 @@
 - 需要哪些实验才能证明机制有效；
 - 如何设计消融和对照实验；
 - 如何避免只报性能而缺少机制证据。
+
+### `data-analysis`
+
+用于把 CSV、JSON、NPZ、pickle、训练日志或实验结果表转化为可复核的数据分析结论。它强调数据来源、缺失值、分组/seed/fold 结构、统计检验选择、p-value、effect size、confidence interval，以及结果是否足以支撑论文 claim。
+
+适合问题：
+
+- 分析实验结果表、训练日志或 grouped CSV；
+- 比较多个方法、step、keep-k、seed 或 ablation 的表现；
+- 选择合适的统计检验并解释显著性、效应量和置信区间；
+- 审核 ground truth、指标定义、结果文件和 claim 是否一致；
+- 生成数据分析报告或论文结果段落的证据边界。
 
 ### `research-html-report`
 
@@ -132,6 +145,7 @@ python latex-paper-build-skill\scripts\scaffold_latex_paper.py --source path\to\
 ```text
 research-logic
 -> experiment-design
+-> data-analysis
 -> research-html-report
 -> training-code-architecture
 -> latex-paper-build-skill
@@ -141,9 +155,10 @@ research-logic
 
 1. 判断多个方法之间是否形成机制级结合，而不是简单模块拼接。
 2. 设计能支撑论文 claim 的实验方案。
-3. 生成 HTML research brief 或 paper-style report。
-4. 将模型和实验落到可复用训练代码架构中。
-5. 整理 LaTeX 论文框架、编译路径和提交前检查。
+3. 分析实验数据、统计显著性、效应量、置信区间和 claim 支撑边界。
+4. 生成 HTML research brief 或 paper-style report。
+5. 将模型和实验落到可复用训练代码架构中。
+6. 整理 LaTeX 论文框架、编译路径和提交前检查。
 
 ### Skill Creation And Maintenance
 
@@ -172,6 +187,10 @@ S_paper_skills/
 |-- experiment-design-skill/
 |   |-- SKILL.md
 |   `-- agents/openai.yaml
+|-- data-analsys-skill/
+|   |-- SKILL.md
+|   |-- agents/openai.yaml
+|   `-- references/
 |-- research-html-report/
 |   |-- SKILL.md
 |   `-- agents/openai.yaml
@@ -207,6 +226,7 @@ python C:\Users\SSS\.codex\skills\.system\skill-creator\scripts\quick_validate.p
 示例：
 
 ```powershell
+python C:\Users\SSS\.codex\skills\.system\skill-creator\scripts\quick_validate.py D:\AI\skill\S_paper_skills\data-analsys-skill
 python C:\Users\SSS\.codex\skills\.system\skill-creator\scripts\quick_validate.py D:\AI\skill\S_paper_skills\latex-paper-build-skill
 python C:\Users\SSS\.codex\skills\.system\skill-creator\scripts\quick_validate.py D:\AI\skill\S_paper_skills\util_skills\interactive-skill-builder
 python C:\Users\SSS\.codex\skills\.system\skill-creator\scripts\quick_validate.py D:\AI\skill\S_paper_skills\util_skills\skill-audit-refactor
