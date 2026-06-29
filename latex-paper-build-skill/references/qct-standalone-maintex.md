@@ -32,6 +32,8 @@ The generated `main.tex` should be immediately editable by the researcher and co
 Include:
 
 - RevTeX-compatible documentclass unless the venue says otherwise.
+- For Chinese PRA author-review drafts, use `\documentclass[aps,pra,reprint,groupedaddress]{revtex4-2}` with `ctex`, explicit `fontspec`, `amsmath`, `amssymb`, `graphicx`, and `xcolor`.
+- For final English PRA drafts, use `\documentclass[aps,pra,reprint,superscriptaddress]{revtex4-2}` with `amsmath`, `amssymb`, `graphicx`, and `xcolor`, and do not load `ctex` or `fontspec` unless the English manuscript still contains Chinese text.
 - XeLaTeX-friendly Chinese support with `ctex` or `fontspec` when Chinese text is present.
 - A QCT/QWCT-specific title, author placeholders, abstract placeholder, and keyword placeholders driven by `paper_config.json` when available. The abstract must follow `qct-writing-methodology.md`: scoped opening, explicit contribution, method summary, evidence hierarchy, and formal limitation language.
 - A notation table or short notation paragraph for coin dimension, step count, position basis, measurement probability, transfer matrix, and reconstruction variable.

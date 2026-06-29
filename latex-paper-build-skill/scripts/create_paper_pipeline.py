@@ -211,6 +211,48 @@ def render_frontmatter(config: dict[str, Any]) -> str:
     return "\n".join(lines).rstrip() + "\n"
 
 
+def revtex_journal(config: dict[str, Any]) -> str:
+    venue = str(config.get("venue", "PRA")).strip().lower()
+    if "prl" in venue:
+        return "prl"
+    return "pra"
+
+
+def render_preamble(config: dict[str, Any]) -> str:
+    journal = revtex_journal(config)
+    language = str(config.get("language", "zh-CN")).strip().lower()
+    is_chinese = language.startswith("zh") or "chinese" in language
+
+    if is_chinese:
+        return f"""
+\\documentclass[aps,{journal},reprint,groupedaddress]{{revtex4-2}}
+
+\\usepackage[UTF8, heading=true]{{ctex}}
+\\usepackage{{fontspec}}
+\\usepackage{{amsmath,amssymb,bm}}
+\\usepackage{{graphicx}}
+\\usepackage{{xcolor}}
+
+\\newcommand{{\\ket}}[1]{{\\left|#1\\right\\rangle}}
+\\newcommand{{\\bra}}[1]{{\\left\\langle#1\\right\\rangle}}
+\\newcommand{{\\braket}}[2]{{\\left\\langle #1 \\middle| #2 \\right\\rangle}}
+\\newcommand{{\\Tr}}{{\\mathrm{{Tr}}}}
+\\newcommand{{\\TODO}}[1]{{\\textcolor{{red}}{{[TODO: #1]}}}}
+""".strip() + "\n"
+
+    return f"""
+\\documentclass[aps,{journal},reprint,superscriptaddress]{{revtex4-2}}
+
+\\usepackage{{amsmath,amssymb,bm}}
+\\usepackage{{graphicx}}
+\\usepackage{{xcolor}}
+
+\\newcommand{{\\ket}}[1]{{\\left|#1\\right\\rangle}}
+\\newcommand{{\\bra}}[1]{{\\left\\langle#1\\right\\rangle}}
+\\newcommand{{\\braket}}[2]{{\\left\\langle #1 \\middle| #2 \\right\\rangle}}
+\\newcommand{{\\Tr}}{{\\mathrm{{Tr}}}}
+""".strip() + "\n"
+
 def copy_template(skill_dir: Path, manuscript_dir: Path, config: dict[str, Any], force: bool) -> None:
     template_dir = skill_dir / "assets" / "revtex-qwct-template"
     if not template_dir.exists():
@@ -227,6 +269,7 @@ def copy_template(skill_dir: Path, manuscript_dir: Path, config: dict[str, Any],
         destination.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(source, destination)
 
+    write_text(manuscript_dir / "preamble.tex", render_preamble(config), True)
     write_text(manuscript_dir / "frontmatter.tex", render_frontmatter(config), True)
 
 
@@ -456,6 +499,7 @@ def create_pipeline(args: argparse.Namespace) -> None:
     manuscript_dir = project / "05_manuscript_zh"
     if latex_source:
         run_latex_scaffold(skill_dir, latex_source, bib, manuscript_dir, args.copy_figures, args.force)
+        write_text(manuscript_dir / "preamble.tex", render_preamble(config), True)
         write_text(manuscript_dir / "frontmatter.tex", render_frontmatter(config), True)
     elif not args.no_template:
         copy_template(skill_dir, manuscript_dir, config, args.force)
