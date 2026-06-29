@@ -234,7 +234,7 @@ def render_preamble(config: dict[str, Any]) -> str:
 \\usepackage{{xcolor}}
 
 \\newcommand{{\\ket}}[1]{{\\left|#1\\right\\rangle}}
-\\newcommand{{\\bra}}[1]{{\\left\\langle#1\\right\\rangle}}
+\\newcommand{{\\bra}}[1]{{\\left\\langle#1\\right|}}
 \\newcommand{{\\braket}}[2]{{\\left\\langle #1 \\middle| #2 \\right\\rangle}}
 \\newcommand{{\\Tr}}{{\\mathrm{{Tr}}}}
 \\newcommand{{\\TODO}}[1]{{\\textcolor{{red}}{{[TODO: #1]}}}}
@@ -248,7 +248,7 @@ def render_preamble(config: dict[str, Any]) -> str:
 \\usepackage{{xcolor}}
 
 \\newcommand{{\\ket}}[1]{{\\left|#1\\right\\rangle}}
-\\newcommand{{\\bra}}[1]{{\\left\\langle#1\\right\\rangle}}
+\\newcommand{{\\bra}}[1]{{\\left\\langle#1\\right|}}
 \\newcommand{{\\braket}}[2]{{\\left\\langle #1 \\middle| #2 \\right\\rangle}}
 \\newcommand{{\\Tr}}{{\\mathrm{{Tr}}}}
 """.strip() + "\n"
