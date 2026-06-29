@@ -6,6 +6,11 @@
 
 每个正式 skill 至少包含一个 `SKILL.md`，并在 frontmatter 中声明 `name` 和 `description`。Codex 主要依靠这两个字段识别 skill，因此新增、移动或修改 skill 后都应运行校验。
 
+## Paper Pipeline Rule
+
+- 默认给作者审核的论文稿使用中文，但行文逻辑按 PRL/PRA 标准组织：先给物理问题和核心机制，再给证据链、边界条件和可检验 claim。
+- 用户审核中文科学内容后，才使用 `paper-polishing-skill/` 做 Nature、PRL 或 PRA 风格的英文翻译、压缩和润色；除非用户明确要求跳过审核门。
+- 所有文献统一由 `.bib` 文件管理；所有论文图片统一放入单一 `figures/` 文件夹。
 ## Skill Overview
 
 ### Research Skills
@@ -15,9 +20,15 @@
 | `research-logic` | `research-logic-skill/` | 分析两个研究方法、模型、理论或机制如何形成机制级结合，而不是停留在模块拼接。 |
 | `experiment-design` | `experiment-design-skill/` | 将模型想法转化为论文级实验设计，包括 research questions、datasets、baselines、ablations、metrics、mechanism checks 和 claim boundaries。 |
 | `data-analysis` | `data-analsys-skill/` | 分析实验数据和论文结果，包含完整性检查、统计检验、effect size、confidence interval 和 claim 支撑边界。 |
-| `research-html-report` | `research-html-report/` | 将研究逻辑、创新点、实验设计、风险边界和下一步计划整理成独立 HTML research brief 或 publication-style report。 |
-| `training-code-architecture` | `training-code-architecture-skill/` | 生成或重构可复用的机器学习训练代码架构，强调 config-driven training、factories、adapters、checkpoint、logs 和 CSV results。 |
+| `research-html-report` | `util_skills/research-html-report/` | 将研究逻辑、创新点、实验设计、风险边界和下一步计划整理成独立 HTML research brief 或 publication-style report。 |
+| `training-code-architecture` | `util_skills/training-code-architecture-skill/` | 生成或重构可复用的机器学习训练代码架构，强调 config-driven training、factories、adapters、checkpoint、logs 和 CSV results。 |
 | `latex-paper-build-skill` | `latex-paper-build-skill/` | 将已有 `.tex` 论文或新论文项目整理成完整 LaTeX manuscript framework 和 paper delivery pipeline。 |
+
+### Polishing Skills
+
+| Skill | Path | Purpose |
+|---|---|---|
+| `paper-polishing-skill` | `paper-polishing-skill/` | Post-approval manuscript translation and polishing for Nature, PRL, and PRA. In the paper pipeline, draft the author-review manuscript in Chinese first, then use this skill for final English after user approval. |
 
 ### Utility Skills
 
@@ -93,7 +104,7 @@
 常用命令：
 
 ```powershell
-python training-code-architecture-skill\scripts\create_project.py --help
+python util_skills\training-code-architecture-skill\scripts\create_project.py --help
 ```
 
 ### `latex-paper-build-skill`
@@ -167,6 +178,7 @@ research-logic
 -> research-html-report
 -> training-code-architecture
 -> latex-paper-build-skill
+-> paper-polishing-skill (after user approval)
 ```
 
 含义：
@@ -177,6 +189,7 @@ research-logic
 4. 生成 HTML research brief 或 paper-style report。
 5. 将模型和实验落到可复用训练代码架构中。
 6. 整理 LaTeX 论文框架、编译路径和提交前检查。
+7. 用户审核中文稿后，再用 `paper-polishing-skill` 翻译并润色为目标期刊英文终稿。
 
 ### Skill Creation And Maintenance
 
@@ -209,14 +222,10 @@ S_paper_skills/
 |   |-- SKILL.md
 |   |-- agents/openai.yaml
 |   `-- references/
-|-- research-html-report/
+|-- paper-polishing-skill/
 |   |-- SKILL.md
-|   `-- agents/openai.yaml
-|-- training-code-architecture-skill/
-|   |-- SKILL.md
-|   |-- README.md
-|   |-- scripts/create_project.py
-|   `-- templates/
+|   |-- agents/openai.yaml
+|   `-- references/
 |-- latex-paper-build-skill/
 |   |-- SKILL.md
 |   |-- agents/openai.yaml
@@ -228,6 +237,14 @@ S_paper_skills/
     |   |-- SKILL.md
     |   |-- agents/openai.yaml
     |   `-- references/
+    |-- research-html-report/
+    |   |-- SKILL.md
+    |   `-- agents/openai.yaml
+    |-- training-code-architecture-skill/
+    |   |-- SKILL.md
+    |   |-- README.md
+    |   |-- scripts/create_project.py
+    |   `-- templates/
     |-- skill-audit-refactor/
     |   |-- SKILL.md
     |   `-- agents/openai.yaml
@@ -251,6 +268,9 @@ python C:\Users\SSS\.codex\skills\.system\skill-creator\scripts\quick_validate.p
 ```powershell
 python C:\Users\SSS\.codex\skills\.system\skill-creator\scripts\quick_validate.py D:\AI\skill\S_paper_skills\data-analsys-skill
 python C:\Users\SSS\.codex\skills\.system\skill-creator\scripts\quick_validate.py D:\AI\skill\S_paper_skills\latex-paper-build-skill
+python C:\Users\SSS\.codex\skills\.system\skill-creator\scripts\quick_validate.py D:\AI\skill\S_paper_skills\paper-polishing-skill
+python C:\Users\SSS\.codex\skills\.system\skill-creator\scripts\quick_validate.py D:\AI\skill\S_paper_skills\util_skills\research-html-report
+python C:\Users\SSS\.codex\skills\.system\skill-creator\scripts\quick_validate.py D:\AI\skill\S_paper_skills\util_skills\training-code-architecture-skill
 python C:\Users\SSS\.codex\skills\.system\skill-creator\scripts\quick_validate.py D:\AI\skill\S_paper_skills\util_skills\interactive-skill-builder
 python C:\Users\SSS\.codex\skills\.system\skill-creator\scripts\quick_validate.py D:\AI\skill\S_paper_skills\util_skills\skill-audit-refactor
 python C:\Users\SSS\.codex\skills\.system\skill-creator\scripts\quick_validate.py D:\AI\skill\S_paper_skills\util_skills\project-agent-generator-skill

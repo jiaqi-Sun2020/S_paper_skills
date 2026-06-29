@@ -4,11 +4,12 @@
 
 - Project root: `D:\AI\skill\S_paper_skills`
 - Generated: 2026-06-25 16:46:16 UTC
+- Last updated: 2026-06-29
 - Rule: facts are recorded from repository files; uncertain items are marked `TODO(agent)` or `inference`.
 
 ## Project Summary
 
-`S_paper_skills` is a local Codex skills collection for research ideation, paper-grade experiment design, experimental data analysis, research HTML reports, reusable ML training-code architecture, LaTeX paper delivery, and skill creation/maintenance workflows. The README frames the skills around ML and research-paper work, while noting that CTQW and dynamic graph neural networks are examples rather than the only target domain.
+`S_paper_skills` is a local Codex skills collection for research ideation, paper-grade experiment design, experimental data analysis, research HTML reports, reusable ML training-code architecture, LaTeX paper delivery, paper polishing, and skill creation/maintenance workflows. The README frames the skills around ML and research-paper work, while noting that CTQW/QWCT and dynamic graph neural networks are examples rather than the only target domain.
 
 ## Detected Stack
 
@@ -20,12 +21,12 @@
 - `README.md`
 - `LICENSE`
 - `research-logic-skill/README.md`
-- `training-code-architecture-skill/README.md`
+- `util_skills/training-code-architecture-skill/README.md`
 - `*/SKILL.md` and `util_skills/*/SKILL.md`
 
 ## Entry Points
 
-- `training-code-architecture-skill/scripts/create_project.py`
+- `util_skills/training-code-architecture-skill/scripts/create_project.py`
 - `latex-paper-build-skill/scripts/create_paper_pipeline.py`
 - `latex-paper-build-skill/scripts/scaffold_latex_paper.py`
 - `util_skills/project-agent-generator-skill/scripts/generate_project_agents.py`
@@ -33,8 +34,15 @@
 
 ## Skill Families
 
-- Research skills: `research-logic`, `experiment-design`, `data-analysis`, `research-html-report`, `training-code-architecture`, `latex-paper-build-skill`.
-- Utility skills: `interactive-skill-builder`, `skill-audit-refactor`, `project-agent-generator-skill`.
+- Core research/paper skills: `research-logic`, `experiment-design`, `data-analysis`, `latex-paper-build-skill`, `paper-polishing-skill`.
+- Pipeline support skills under `util_skills/`: `research-html-report`, `training-code-architecture`.
+- Skill maintenance utilities: `interactive-skill-builder`, `skill-audit-refactor`, `project-agent-generator-skill`.
+
+## Paper Polishing Workflow
+
+- `paper-polishing-skill/` is a formal research skill for post-review manuscript translation and polishing.
+- The durable bundle rule is: draft the author-review manuscript in Chinese with PRL/PRA reasoning logic, then use `paper-polishing-skill` for Nature/PRL/PRA English finalization only after user approval.
+- This polishing stage protects claims, terminology, equations, citation keys, `.bib` management, and `figures/` layout rather than inventing missing science.
 
 ## Current Unknowns
 

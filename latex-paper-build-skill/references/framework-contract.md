@@ -30,8 +30,8 @@ paper_latex_framework/
 - `frontmatter.tex`: title, authors, affiliations, date, abstract, and `\maketitle`.
 - `sections/*.tex`: one top-level section per file. Preserve labels and internal subsection structure.
 - `backmatter.tex`: bibliography style, bibliography command, acknowledgments, appendices, and any final material.
-- `figures/`: only figures referenced by the generated framework unless the user asks for archival copy.
-- `references/`: BibTeX or BibLaTeX databases used by the paper.
+- `figures/`: the single folder for all figure and image assets referenced by the generated framework unless the user asks for archival copy.
+- `references/`: `.bib` databases used by the paper. Do not manage literature through inline bibliography blocks in generated frameworks.
 - `notes/paper_context.md`: generated structure report and known mechanical issues.
 
 ## Generation Rules
@@ -41,8 +41,9 @@ paper_latex_framework/
 - Keep source prose unchanged when splitting.
 - Keep labels unchanged unless fixing duplicates with explicit user approval.
 - Keep citation keys unchanged.
+- Manage all literature in `.bib` files, typically under `references/`; do not emit inline `thebibliography`.
 - Rewrite bibliography paths only when the generated file layout requires it.
-- Rewrite figure paths only when the corresponding figure file has been copied.
+- Put every copied figure or image under `figures/` and rewrite figure paths only when the corresponding file has been copied.
 - Prefer short, stable slugs: `01_introduction.tex`, `02_background.tex`, `03_model.tex`, `04_experiments.tex`, `05_conclusion.tex`.
 
 ## Build Rules

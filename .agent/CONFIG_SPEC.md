@@ -4,11 +4,12 @@
 
 - Project root: `D:\AI\skill\S_paper_skills`
 - Generated: 2026-06-25 16:46:16 UTC
+- Last updated: 2026-06-29
 - Rule: facts are recorded from repository files; uncertain items are marked `TODO(agent)` or `inference`.
 
 ## Config Files
 
-- `training-code-architecture-skill/templates/config.json`
+- `util_skills/training-code-architecture-skill/templates/config.json`
 - `latex-paper-build-skill/assets/revtex-qwct-template/latexmkrc`
 
 ## Skill Metadata Files
@@ -16,21 +17,23 @@
 - `data-analsys-skill/SKILL.md`
 - `experiment-design-skill/SKILL.md`
 - `latex-paper-build-skill/SKILL.md`
-- `research-html-report/SKILL.md`
+- `paper-polishing-skill/SKILL.md`
 - `research-logic-skill/SKILL.md`
-- `training-code-architecture-skill/SKILL.md`
 - `util_skills/interactive-skill-builder/SKILL.md`
 - `util_skills/project-agent-generator-skill/SKILL.md`
+- `util_skills/research-html-report/SKILL.md`
 - `util_skills/skill-audit-refactor/SKILL.md`
+- `util_skills/training-code-architecture-skill/SKILL.md`
 
 ## Agent Config Files
 
 - `data-analsys-skill/agents/openai.yaml`
 - `experiment-design-skill/agents/openai.yaml`
 - `latex-paper-build-skill/agents/openai.yaml`
-- `research-html-report/agents/openai.yaml`
+- `paper-polishing-skill/agents/openai.yaml`
 - `util_skills/interactive-skill-builder/agents/openai.yaml`
 - `util_skills/project-agent-generator-skill/agents/openai.yaml`
+- `util_skills/research-html-report/agents/openai.yaml`
 - `util_skills/skill-audit-refactor/agents/openai.yaml`
 
 ## Environment Files
@@ -49,7 +52,7 @@ Only filenames are listed. Do not copy secret values.
 |---|---|---|
 | `$env:PYTHONUTF8 = "1"; D:\AI\Anaconda\envs\py310_2\python.exe C:\Users\SSS\.codex\skills\.system\skill-creator\scripts\quick_validate.py D:\AI\skill\S_paper_skills\<skill-folder>` | `README.md`, user-selected interpreter | fact |
 | `D:\AI\Anaconda\envs\py310_2\python.exe -m py_compile <script.py>` | `README.md`, user-selected interpreter | fact |
-| `D:\AI\Anaconda\envs\py310_2\python.exe training-code-architecture-skill\scripts\create_project.py --help` | `README.md` / script entry point | fact |
+| `D:\AI\Anaconda\envs\py310_2\python.exe util_skills\training-code-architecture-skill\scripts\create_project.py --help` | `README.md` / script entry point | fact |
 | `D:\AI\Anaconda\envs\py310_2\python.exe latex-paper-build-skill\scripts\create_paper_pipeline.py --help` | `README.md` / script entry point | fact |
 | `D:\AI\Anaconda\envs\py310_2\python.exe latex-paper-build-skill\scripts\scaffold_latex_paper.py --help` | `README.md` / script entry point | fact |
 | `D:\AI\Anaconda\envs\py310_2\python.exe util_skills\project-agent-generator-skill\scripts\generate_project_agents.py D:\AI\skill\S_paper_skills --out-dir .agent --force` | `util_skills/project-agent-generator-skill/SKILL.md`, user request | fact |
@@ -57,6 +60,6 @@ Only filenames are listed. Do not copy secret values.
 ## Config Semantics To Confirm
 
 - `SKILL.md` frontmatter `name` must use lowercase letters, numbers, and hyphens.
-- README says folder names may carry a `-skill` suffix, and utility skills belong under `util_skills/`.
+- README says folder names may carry a `-skill` suffix, and utility/support skills can live under `util_skills/`.
 - TODO(agent): document exact schema expectations for `agents/openai.yaml` if these files become edited surfaces.
-- TODO(agent): confirm whether `training-code-architecture-skill/templates/config.json` should stay generic or track a canonical example.
+- TODO(agent): confirm whether `util_skills/training-code-architecture-skill/templates/config.json` should stay generic or track a canonical example.

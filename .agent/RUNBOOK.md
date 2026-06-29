@@ -4,6 +4,7 @@
 
 - Project root: `D:\AI\skill\S_paper_skills`
 - Generated: 2026-06-25 16:46:16 UTC
+- Last updated: 2026-06-29
 - Rule: facts are recorded from repository files; uncertain items are marked `TODO(agent)` or `inference`.
 
 ## Setup / Runtime
@@ -19,11 +20,20 @@
 | `$env:PYTHONUTF8 = "1"; D:\AI\Anaconda\envs\py310_2\python.exe C:\Users\SSS\.codex\skills\.system\skill-creator\scripts\quick_validate.py D:\AI\skill\S_paper_skills\<skill-folder>` | `README.md`, user-selected interpreter | fact |
 | `D:\AI\Anaconda\envs\py310_2\python.exe -m py_compile <script.py>` | `README.md`, user-selected interpreter | fact |
 
+## Paper Polishing Validation
+
+After changes to `paper-polishing-skill/`, validate with:
+
+```powershell
+$env:PYTHONUTF8 = "1"
+D:\AI\Anaconda\envs\py310_2\python.exe C:\Users\SSS\.codex\skills\.system\skill-creator\scripts\quick_validate.py D:\AI\skill\S_paper_skills\paper-polishing-skill
+```
+
 ## Script Smoke Checks
 
 | Command | Source | Status |
 |---|---|---|
-| `D:\AI\Anaconda\envs\py310_2\python.exe training-code-architecture-skill\scripts\create_project.py --help` | `training-code-architecture-skill/README.md` | fact |
+| `D:\AI\Anaconda\envs\py310_2\python.exe util_skills\training-code-architecture-skill\scripts\create_project.py --help` | `util_skills/training-code-architecture-skill/README.md` | fact |
 | `D:\AI\Anaconda\envs\py310_2\python.exe latex-paper-build-skill\scripts\create_paper_pipeline.py --help` | `README.md` | fact |
 | `D:\AI\Anaconda\envs\py310_2\python.exe latex-paper-build-skill\scripts\scaffold_latex_paper.py --help` | `README.md` | fact |
 | `D:\AI\Anaconda\envs\py310_2\python.exe util_skills\project-agent-generator-skill\scripts\generate_project_agents.py D:\AI\skill\S_paper_skills --out-dir .agent --dry-run` | `util_skills/project-agent-generator-skill/SKILL.md` | fact |
@@ -33,7 +43,7 @@
 1. Read `.agent/AGENTS.md` and this runbook.
 2. Check the working tree before editing.
 3. For skill changes, run `quick_validate.py` on the changed skill folder.
-4. For script changes, run `py_compile` and the smallest relevant `--help` or dry-run command.
+4. For script changes or moves, run `py_compile` and the smallest relevant `--help` or dry-run command.
 5. Escalate installs, pushes, scaffold overwrites, publishing, or network calls only with user approval.
 
 ## Long-Running Or Risky Commands

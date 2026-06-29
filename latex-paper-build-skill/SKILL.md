@@ -1,27 +1,34 @@
 ---
 name: latex-paper-build-skill
-description: Build, restructure, and maintain complete research-paper delivery pipelines centered on LaTeX manuscripts. Use when Codex needs to inspect an existing .tex paper, generate a project-specific LaTeX scaffold, split a monolithic manuscript into modular files, preserve revtex/ctex/fontspec/BibTeX conventions, check figure and bibliography paths, choose XeLaTeX/latexmk build commands, or orchestrate a full paper workflow from research logic, experiment design, training-code outputs, HTML research reports, manuscript architecture, compilation, and submission checks.
+description: Build, restructure, and maintain complete research-paper delivery pipelines centered on LaTeX manuscripts. Use when Codex needs to inspect an existing .tex paper, generate a project-specific LaTeX scaffold, create a standalone editable main.tex, split a monolithic manuscript into modular files, preserve revtex/ctex/fontspec/BibTeX conventions, enforce .bib reference management and a single figures/ folder, check figure and bibliography paths, choose XeLaTeX/latexmk build commands, or orchestrate a full paper workflow from research logic, experiment design, training-code outputs, HTML research reports, manuscript architecture, compilation, and submission checks. Also use for QCT/QWCT coin-state tomography manuscripts derived from experiment-code outputs or research reports.
 ---
 
 # LaTeX Paper Build Skill
 
 ## Overview
 
-Use this skill to turn a research idea or LaTeX paper directory into a maintainable paper-delivery pipeline without overwriting the original source. The default target is a scientific manuscript with research notes, experiment plans, training outputs, reports, `main.tex`, `preamble.tex`, `frontmatter.tex`, modular `sections/`, `figures/`, `references/`, `notes/`, and a reproducible build path.
+Use this skill to turn a research idea, experiment-code output, or LaTeX paper directory into a maintainable paper-delivery pipeline without overwriting the original source. The default target is a scientific manuscript with research notes, experiment plans, training outputs, reports, `main.tex`, `preamble.tex`, `frontmatter.tex`, modular `sections/`, one shared `figures/` folder, `references/` containing `.bib` databases, `notes/`, and a reproducible build path. When the user explicitly asks for a complete editable `main.tex` or a rebuilt QCT/QWCT manuscript framework, generate a standalone manuscript file instead of forcing a modular split.
+
+## Bundle Pipeline Rule
+
+Inside `S_paper_skills`, paper-pipeline author-review output defaults to Chinese prose while preserving PRL/PRA reasoning logic. Final English manuscript translation and Nature/PRL/PRA style polishing are approval-gated and belong to `paper-polishing-skill` after the user has reviewed the Chinese scientific content.
 
 ## Workflow
 
 1. Discover the paper context before editing.
    - Find the main `.tex`, `.bib`, figure directories, compiled PDFs/logs, and venue class.
    - Prefer `rg --files`, then inspect `\documentclass`, packages, `\title`, `\section`, `\includegraphics`, `\bibliographystyle`, and `\bibliography`.
+   - Treat `.bib` files as the sole literature source for generated frameworks, and plan to consolidate manuscript images under one `figures/` folder.
    - If the project is the QWCT/QWTA paper under `2026_06_17`, read `references/qwct-paper-profile.md`.
    - If creating or reorganizing a framework, read `references/framework-contract.md`.
+   - If the user asks for a complete standalone `main.tex`, a fresh QCT/QWCT framework, or a manuscript based on `QCT_run_all` experiment outputs, read `references/qct-standalone-maintex.md`.
 
 2. Choose the operation.
    - Full paper pipeline: read `references/paper-pipeline.md` and use the sibling skills listed there when available.
-   - Existing monolithic paper: run `scripts/scaffold_latex_paper.py` with `--source`.
+   - Existing monolithic paper: run `scripts/scaffold_latex_paper.py` with `--source`; use `--copy-figures` for managed manuscript frameworks so image assets are copied into `figures/`.
    - Pipeline workspace: run `scripts/create_paper_pipeline.py`.
    - New paper with similar conventions: copy or adapt `assets/revtex-qwct-template/`.
+   - Standalone editable `main.tex`: when requested, create a fresh non-destructive manuscript directory and put the preamble, frontmatter, sections, evidence tables, TODO markers, and BibTeX hook in one file.
    - Compile/debug request: preserve the current file layout, then run the build command and fix only the failing surface.
    - Writing-only request: defer to the user's writing skill or local paper-writing rules; this skill owns architecture, paths, and build mechanics.
 
@@ -31,8 +38,11 @@ Use this skill to turn a research idea or LaTeX paper directory into a maintaina
    - Keep one source of truth for packages in `preamble.tex`.
    - Keep title/authors/abstract in `frontmatter.tex`.
    - Keep each top-level section in `sections/NN_slug.tex`.
-   - Move/copy cited bibliography files into `references/` and update `\bibliography{references/<stem>}`.
-   - Copy only referenced figures unless the user asks for the whole asset tree.
+   - Exception: when a complete standalone `main.tex` is explicitly requested, keep all editable manuscript content in `main.tex` and place it in a new directory such as `05_manuscript_qct/`.
+   - Manage all literature through `.bib` files. Create or copy the active `.bib` file into `references/` and use `\bibliographystyle` plus `\bibliography`; do not emit inline `thebibliography` in generated frameworks.
+   - Move/copy cited `.bib` files into `references/` and update `\bibliography{references/<stem>}`.
+   - Keep all manuscript images in a single `figures/` folder. After copying referenced graphics, rewrite `\includegraphics` paths to `figures/<file>` and avoid new `fig/`, `images/`, or source-local image roots.
+   - Copy only referenced figures into `figures/` unless the user asks for the whole asset tree.
 
 4. Validate the result.
    - Run `python -m py_compile scripts/scaffold_latex_paper.py` after script edits.
@@ -68,7 +78,7 @@ Useful options:
 
 - `--inspect-only`: print a Markdown structure report without writing a framework.
 - `--force`: allow overwriting files inside the output directory.
-- `--copy-figures`: copy referenced figure files into `figures/` and rewrite include paths.
+- `--copy-figures`: copy referenced figure files into the single `figures/` folder and rewrite include paths.
 - `--paper-key`: override the generated project key used in reports.
 
 ## Build Rules
@@ -76,7 +86,10 @@ Useful options:
 - Use XeLaTeX when the paper loads `ctex` or `fontspec`.
 - Preserve `revtex4-2` options unless the user asks for a venue change.
 - Preserve labels, citations, equations, algorithms, captions, and section content verbatim during scaffolding.
+- For QCT/QWCT standalone frameworks, do not patch an old QWTA or traffic-assignment manuscript into a QCT paper. Treat old files and `back/` as historical background, then build a new manuscript around verified experiment code, reports, and explicit TODOs.
 - Treat bibliography drift as a build issue. For example, if the source says `\bibliography{QWTA_cite}` but the available file is `QWCT_cite.bib`, rewrite the generated framework to the available `.bib` and report the drift.
+- Treat inline `thebibliography` in generated frameworks as bibliography drift; migrate it to `.bib`.
+- Treat generated figure paths outside `figures/` as layout drift; copy the asset into `figures/` and rewrite the path when the file is available.
 - Do not silently convert Chinese text encodings. Read as UTF-8 first, then fall back to `gb18030`/`cp936`; write generated framework files as UTF-8.
 
 ## Pipeline Integration
@@ -85,9 +98,10 @@ When this skill lives inside a skill bundle such as `S_paper_skills`, treat sibl
 
 - `../research-logic-skill/SKILL.md` for contribution logic and mechanism-level claims.
 - `../experiment-design-skill/SKILL.md` for paper-grade validation plans.
-- `../training-code-architecture-skill/SKILL.md` for reusable experiment code architecture and result contracts.
-- `../research-html-report/SKILL.md` for shareable research briefs and publication-style HTML reports.
-- `../skill-audit-refactor/SKILL.md` when the pipeline skill itself needs pruning or restructuring.
+- `../util_skills/training-code-architecture-skill/SKILL.md` for reusable experiment code architecture and result contracts.
+- `../util_skills/research-html-report/SKILL.md` for shareable research briefs and publication-style HTML reports.
+- `../paper-polishing-skill/SKILL.md` for post-approval Chinese-to-English translation and Nature/PRL/PRA manuscript polishing.
+- `../util_skills/skill-audit-refactor/SKILL.md` when the pipeline skill itself needs pruning or restructuring.
 
 Do not copy all sibling skill instructions into context by default. Use `references/paper-pipeline.md` as the routing contract.
 

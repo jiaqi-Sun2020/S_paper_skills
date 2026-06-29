@@ -4,6 +4,7 @@
 
 - Project root: `D:\AI\skill\S_paper_skills`
 - Generated: 2026-06-25 16:46:16 UTC
+- Last updated: 2026-06-29
 - Rule: facts are recorded from repository files; uncertain items are marked `TODO(agent)` or `inference`.
 
 ## Existing Decision Records
@@ -14,7 +15,7 @@
 
 - The repository is organized as a Codex skill collection rather than a single application package.
 - Each formal skill is centered on `SKILL.md` with frontmatter `name` and `description`.
-- Research-paper workflow skills live at the top level; utility and maintenance skills live under `util_skills/`.
+- Core research/paper skills live at the top level; support and maintenance skills can live under `util_skills/`.
 - Large guidance belongs in `references/`, reusable automation in `scripts/`, generated project starters in `templates/`, and reusable paper assets in `assets/`.
 - README recommends `interactive-skill-builder -> skill-audit-refactor -> quick_validate.py` for skill creation and maintenance.
 
@@ -22,6 +23,9 @@
 
 - 2026-06-26: Generate singular `.agent/` context for `D:\AI\skill\S_paper_skills`.
 - 2026-06-26: Use `D:\AI\Anaconda\envs\py310_2\python.exe` for this generation/verification work.
+- 2026-06-29: Paper-pipeline final author-review output should be Chinese while preserving PRL/PRA logic; English finalization happens after user review via `paper-polishing-skill/`.
+- 2026-06-29: All paper literature should be managed by `.bib` files, and all manuscript images should be stored under one `figures/` folder.
+- 2026-06-29: `research-html-report` and `training-code-architecture-skill` are currently placed under `util_skills/`.
 
 ## Open Questions
 

@@ -4,6 +4,7 @@
 
 - Project root: `D:\AI\skill\S_paper_skills`
 - Generated: 2026-06-25 16:46:16 UTC
+- Last updated: 2026-06-29
 - Rule: facts are recorded from repository files; uncertain items are marked `TODO(agent)` or `inference`.
 
 ## Scope
@@ -31,9 +32,18 @@ D:\AI\skill\S_paper_skills
 - Do not invent project goals, commands, APIs, metrics, references, or config semantics.
 - Each formal skill must keep `SKILL.md` frontmatter with `name` and `description`.
 - Keep large guidance in `references/`, reusable code in `scripts/`, and templates/assets in `templates/` or `assets/` when the README pattern applies.
+- Keep README, `.agent/`, and affected skill routing references synchronized when moving or adding skill directories.
 - Before overwriting generated outputs, scaffold targets, paper assets, or training templates, ask the user.
 - Keep edits scoped to the requested skill or documentation surface.
 - Verify commands before documenting them as facts.
+- Run `quick_validate.py` on any changed formal skill, and run the smallest relevant script smoke check when scripts move or change.
+
+## Paper Pipeline Language And Polishing Rules
+
+- Paper-pipeline author-review manuscripts default to Chinese prose while preserving PRL/PRA reasoning logic: physical question first, central mechanism/result early, evidence-bound claims, and explicit limits.
+- Do not finalize a whole English manuscript before the user has reviewed and approved the Chinese scientific content, unless the user explicitly overrides this gate.
+- After user approval, use `paper-polishing-skill/` for Nature, PRL, or PRA targeted English translation and polishing.
+- Keep all literature in `.bib` files and manuscript images in a single `figures/` folder when building or polishing LaTeX paper projects.
 
 ## Runtime / Tooling Notes
 
@@ -46,7 +56,7 @@ D:\AI\skill\S_paper_skills
 ## Likely Generated Or Large Output Directories
 
 - None detected at top level.
-- `training-code-architecture-skill/templates/` and `latex-paper-build-skill/assets/` are source templates/assets, not disposable generated outputs.
+- `util_skills/training-code-architecture-skill/templates/` and `latex-paper-build-skill/assets/` are source templates/assets, not disposable generated outputs.
 
 ## Commands
 

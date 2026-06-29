@@ -13,7 +13,7 @@ Observed on 2026-06-24:
 - Language/runtime: Chinese manuscript text with `ctex` and `fontspec`; compile with XeLaTeX or LuaLaTeX, prefer XeLaTeX.
 - Packages observed: `ctex`, `fontspec`, `amsmath`, `amssymb`, `amsthm`, `algorithm`, `algorithmic`, `float`, `xcolor`, `graphicx`.
 - Bibliography style: `apsrev4-2`.
-- Known drift: source contains `\bibliography{QWTA_cite}`, while the actual `.bib` file is `QWCT_cite.bib`. Generated frameworks should point to the available bibliography file unless the user confirms a rename.
+- Known drift: source contains `\bibliography{QWTA_cite}`, while the actual `.bib` file is `QWCT_cite.bib`. Generated frameworks should point to the available bibliography file unless the user confirms a rename; all literature must remain `.bib` managed.
 
 Paper identity:
 
@@ -60,6 +60,6 @@ Figure and table assets referenced by the source include:
 Practical handling notes:
 
 - PowerShell `Get-Content` may display mojibake for UTF-8 files without BOM. Prefer `rg` for quick inspection or explicitly read as UTF-8.
-- Keep figure paths stable during edits; when scaffolding, rewrite `./fig/...` to `figures/...` only after copying the referenced file.
+- Keep figure paths stable during in-place edits; when scaffolding, copy referenced assets into the single `figures/` folder and rewrite `./fig/...` to `figures/...` only after copying the referenced file.
 - Preserve labels verbatim during splitting. Some labels intentionally preserve old names to avoid breaking citations.
 - This paper is currently a monolithic source. The preferred architecture is a generated copy with modular sections, not an in-place split of the original manuscript.

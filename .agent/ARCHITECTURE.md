@@ -4,6 +4,7 @@
 
 - Project root: `D:\AI\skill\S_paper_skills`
 - Generated: 2026-06-25 16:46:16 UTC
+- Last updated: 2026-06-29
 - Rule: facts are recorded from repository files; uncertain items are marked `TODO(agent)` or `inference`.
 
 ## Top-Level Map
@@ -24,23 +25,21 @@ S_paper_skills/
 |   |-- references/
 |   |-- scripts/
 |   `-- SKILL.md
-|-- LICENSE
-|-- README.md
-|-- research-html-report/
+|-- paper-polishing-skill/
 |   |-- agents/
+|   |-- references/
 |   `-- SKILL.md
 |-- research-logic-skill/
 |   |-- README.md
 |   `-- SKILL.md
-|-- training-code-architecture-skill/
-|   |-- README.md
-|   |-- scripts/
-|   |-- SKILL.md
-|   `-- templates/
-`-- util_skills/
-    |-- interactive-skill-builder/
-    |-- project-agent-generator-skill/
-    `-- skill-audit-refactor/
+|-- util_skills/
+|   |-- interactive-skill-builder/
+|   |-- project-agent-generator-skill/
+|   |-- research-html-report/
+|   |-- skill-audit-refactor/
+|   `-- training-code-architecture-skill/
+|-- LICENSE
+`-- README.md
 ```
 
 ## Top-Level Directories
@@ -49,9 +48,8 @@ S_paper_skills/
 - `data-analsys-skill/`
 - `experiment-design-skill/`
 - `latex-paper-build-skill/`
-- `research-html-report/`
+- `paper-polishing-skill/`
 - `research-logic-skill/`
-- `training-code-architecture-skill/`
 - `util_skills/`
 
 ## Top-Level Files
@@ -59,10 +57,21 @@ S_paper_skills/
 - `LICENSE`
 - `README.md`
 
+## Skill Placement
+
+- Core research logic, experiment design, data analysis, LaTeX paper build, and paper polishing skills live at the repository top level.
+- `util_skills/` contains maintenance/generation skills plus pipeline-support skills that produce HTML reports or reusable training-code templates.
+- `research-html-report` and `training-code-architecture` are under `util_skills/` in the current tree; use their actual paths in README, runbooks, and sibling routing.
+
+## Paper Polishing Skill
+
+- `paper-polishing-skill/` is a top-level formal skill.
+- It contains `SKILL.md`, `agents/openai.yaml`, and `references/` guidance for Nature, PRL, PRA, Chinese-to-English translation, claim safety, and LaTeX preservation.
+- It is intentionally separate from `latex-paper-build-skill/`: paper-build owns manuscript structure and build mechanics; paper-polishing owns post-review language transformation and venue-specific polish.
+
 ## Module Boundaries
 
 - Each skill directory is an independently consumable Codex skill bundle.
-- `util_skills/` contains maintenance and generation skills rather than research-paper workflow skills.
 - `references/` holds longer task guidance loaded only when needed.
 - `scripts/` holds reusable automation entry points.
 - `templates/` and `assets/` hold files copied or adapted into generated downstream projects.
@@ -70,7 +79,7 @@ S_paper_skills/
 
 ## Entry Points
 
-- `training-code-architecture-skill/scripts/create_project.py`
+- `util_skills/training-code-architecture-skill/scripts/create_project.py`
 - `latex-paper-build-skill/scripts/create_paper_pipeline.py`
 - `latex-paper-build-skill/scripts/scaffold_latex_paper.py`
 - `util_skills/project-agent-generator-skill/scripts/generate_project_agents.py`
