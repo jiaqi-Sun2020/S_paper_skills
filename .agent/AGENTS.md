@@ -41,6 +41,7 @@ D:\AI\skill\S_paper_skills
 ## Paper Pipeline Language And Polishing Rules
 
 - Paper-pipeline author-review manuscripts default to Chinese prose while preserving PRL/PRA reasoning logic: physical question first, central mechanism/result early, evidence-bound claims, and explicit limits.
+- For QCT/QWCT manuscripts, apply `latex-paper-build-skill/references/qct-writing-methodology.md` before drafting or revising the abstract, introduction, contribution paragraph, results framing, terminology, or claim boundary; this is a reusable methodology rule, not a one-paper patch.
 - Do not finalize a whole English manuscript before the user has reviewed and approved the Chinese scientific content, unless the user explicitly overrides this gate.
 - After user approval, use `paper-polishing-skill/` for Nature, PRL, or PRA targeted English translation and polishing.
 - Keep all literature in `.bib` files and manuscript images in a single `figures/` folder when building or polishing LaTeX paper projects.

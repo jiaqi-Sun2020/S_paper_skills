@@ -9,8 +9,10 @@
 ## Paper Pipeline Rule
 
 - 默认给作者审核的论文稿使用中文，但行文逻辑按 PRL/PRA 标准组织：先给物理问题和核心机制，再给证据链、边界条件和可检验 claim。
+- QCT/QWCT 论文必须先应用 `latex-paper-build-skill/references/qct-writing-methodology.md`：摘要首句限定物理设置，引言解释“影响不等于可逆”，贡献表述为 keep-k 稀疏位置可观测性诊断，结果按证据强弱和边界条件组织。
 - 用户审核中文科学内容后，才使用 `paper-polishing-skill/` 做 Nature、PRL 或 PRA 风格的英文翻译、压缩和润色；除非用户明确要求跳过审核门。
 - 所有文献统一由 `.bib` 文件管理；所有论文图片统一放入单一 `figures/` 文件夹。
+- 论文作者、单位、通讯地址、邮箱、关键词、致谢等基础信息统一由根目录 `paper_config.json` 管理。
 ## Skill Overview
 
 ### Research Skills

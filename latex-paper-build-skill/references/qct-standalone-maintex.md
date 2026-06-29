@@ -4,7 +4,10 @@ Read this reference when the user asks for a fresh QCT/QWCT paper framework, a c
 
 ## Required Behavior
 
+- Before drafting the abstract, introduction, contribution paragraph, results overview, or discussion boundary, read `qct-writing-methodology.md` and apply its claim ladder and terminology rules.
+
 - Generate non-destructively. Use a new manuscript directory such as `05_manuscript_qct/`, `manuscript_qct/`, or another clearly named sibling of the existing manuscript.
+- Create or preserve root-level `paper_config.json` for title, authors, affiliations, correspondence address/email, keywords, venue, acknowledgments, and abstract metadata.
 - Do not overwrite or mechanically rewrite an old QWTA, traffic-assignment, or legacy manuscript into a QCT paper. Mention it only as historical background when useful.
 - Prefer a standalone `main.tex` when the user asks for a complete editable file. In this mode, keep the preamble, frontmatter, section skeleton, tables, equations, BibTeX hook, and TODO markers in one file.
 - Add a sibling `latexmkrc` when the directory is new and the project uses `ctex`, `fontspec`, or RevTeX.
@@ -30,7 +33,7 @@ Include:
 
 - RevTeX-compatible documentclass unless the venue says otherwise.
 - XeLaTeX-friendly Chinese support with `ctex` or `fontspec` when Chinese text is present.
-- A QCT/QWCT-specific title, author placeholders, abstract placeholder, and keyword placeholders.
+- A QCT/QWCT-specific title, author placeholders, abstract placeholder, and keyword placeholders driven by `paper_config.json` when available. The abstract must follow `qct-writing-methodology.md`: scoped opening, explicit contribution, method summary, evidence hierarchy, and formal limitation language.
 - A notation table or short notation paragraph for coin dimension, step count, position basis, measurement probability, transfer matrix, and reconstruction variable.
 - Core problem equations: coin state, walk unitary, measurement map, vectorized linear system, inverse or regularized estimator, and fidelity metric.
 - A current-evidence table populated only with values verified from local outputs or reports.
@@ -43,7 +46,7 @@ Include:
 
 Use this order unless the user's paper structure is more specific:
 
-1. Introduction and contributions.
+1. Introduction and contributions, using the five-paragraph introduction method from `qct-writing-methodology.md`.
 2. QCT measurement model.
 3. Reconstruction method and numerical implementation.
 4. Experimental protocol and datasets/configurations.

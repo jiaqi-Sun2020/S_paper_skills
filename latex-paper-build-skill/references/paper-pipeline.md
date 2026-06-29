@@ -2,24 +2,26 @@
 
 Use this reference when the user asks for a complete paper pipeline, or when `latex-paper-build-skill` is installed inside a bundle such as `S_paper_skills`.
 
+This pipeline borrows the staged-writing discipline of `alfonso0512/research-writing-skill`: separate literature/context intake, outline, section drafting, abstract/introduction/method writing, result interpretation, figure/table captions, logic checking, and reviewer simulation. In this repository those stages should become durable files, not chat-only prompt outputs.
+
 ## Pipeline Stages
 
 ```text
-0. Intake and project inventory
+0. Intake, project inventory, and paper_config.json
 1. Research logic
 2. Experiment design
 3. Training code and result contract
 4. Research HTML report
-5. Chinese author-review LaTeX manuscript architecture
+5. Config-driven Chinese author-review LaTeX manuscript architecture
 6. User scientific/content review gate
 7. Post-approval English polishing and submission checks
 ```
 
 Each stage should produce a durable artifact. Avoid treating chat-only reasoning as complete unless the user explicitly wants a discussion rather than a managed project.
 
-## Stage 0: Intake and Inventory
+## Stage 0: Intake, Inventory, And Config
 
-Goal: identify what already exists and what is missing.
+Goal: identify what already exists, what is missing, and what stable manuscript metadata should drive generated frontmatter.
 
 Inspect:
 
@@ -27,11 +29,13 @@ Inspect:
 - available `.tex`, `.bib`, figures, PDFs, logs;
 - experiment code, configs, outputs, metrics CSVs;
 - reports or planning notes;
-- target venue, language, page limit, anonymity status.
+- target venue, language, page limit, anonymity status;
+- author names, affiliations, contact email, correspondence address, keywords, acknowledgments, and funding metadata.
 
-Recommended artifact:
+Recommended artifacts:
 
 ```text
+paper_config.json
 00_research_logic/intake.md
 ```
 
@@ -40,7 +44,10 @@ Minimum contents:
 - one-sentence project identity;
 - current source assets;
 - missing decisions;
-- target pipeline stage.
+- target pipeline stage;
+- metadata TODOs that remain unresolved in `paper_config.json`.
+
+Read `references/paper-config.md` before creating or editing `paper_config.json`. For QCT/QWCT papers, read `references/qct-writing-methodology.md` before drafting the abstract, introduction, contribution paragraph, results framing, or discussion boundary.
 
 ## Stage 1: Research Logic
 
@@ -149,13 +156,16 @@ Exit gate:
 - mechanism, experiment plan, evidence matrix, risks, and TODOs are visible;
 - missing evidence is marked as TODO rather than implied as complete.
 
-## Stage 5: Chinese Author-Review LaTeX Manuscript Architecture
+## Stage 5: Config-Driven Chinese Author-Review LaTeX Manuscript Architecture
 
 This skill owns this stage. By default in `S_paper_skills`, generated author-review prose should be Chinese while preserving PRL/PRA paper logic. The English finalization is a later, approval-gated stage.
+
+Paper metadata config: read `references/paper-config.md`. Create or preserve root-level `paper_config.json` and use it as the source of truth for title, authors, affiliations, correspondence address/email, keywords, acknowledgments, venue, and author-review abstract.
 
 Artifacts:
 
 ```text
+paper_config.json
 05_manuscript_zh/
   main.tex
   preamble.tex
@@ -167,10 +177,13 @@ Artifacts:
   notes/paper_context.md
 ```
 
-Use `scripts/scaffold_latex_paper.py` for existing monolithic papers. Use `assets/revtex-qwct-template/` for new REVTeX/QWCT-style manuscripts.
+Use `scripts/scaffold_latex_paper.py` for existing monolithic papers. Use `scripts/create_paper_pipeline.py` for new config-driven workspaces. Use `assets/revtex-qwct-template/` for new REVTeX/QWCT-style manuscripts.
 
 Exit gate:
 
+- `paper_config.json` exists and has title, authors, affiliations, correspondence, and venue fields;
+- `frontmatter.tex` is generated from or manually checked against `paper_config.json`;
+- QCT/QWCT abstract and introduction follow `qct-writing-methodology.md`;
 - source manuscript is modular;
 - original source remains untouched unless explicitly requested;
 - figure and bibliography paths resolve;
@@ -180,11 +193,12 @@ Exit gate:
 
 ## Stage 6: User Scientific/Content Review Gate
 
-Do not run whole-manuscript final English polishing before this gate unless the user explicitly overrides it. The author should review the Chinese manuscript for scientific content, claim boundaries, terminology, and figure/table intent.
+Do not run whole-manuscript final English polishing before this gate unless the user explicitly overrides it. The author should review the Chinese manuscript for scientific content, claim boundaries, terminology, figure/table intent, and paper metadata.
 
 Exit gate:
 
 - user approves the Chinese scientific content or gives an explicit override;
+- `paper_config.json` metadata has been checked by the author;
 - unresolved TODOs are either fixed or deliberately carried forward;
 - claims are marked as completed, partial, planned, or speculative.
 
@@ -202,7 +216,8 @@ Required checks:
 - check bibliography drift and ensure references are `.bib` managed;
 - check figure formats and raster/vector suitability;
 - check page count and venue constraints if known;
-- check anonymity if double blind.
+- check anonymity if double blind;
+- check that `paper_config.json` remains the source for final title, authors, affiliations, and correspondence.
 
 Artifact:
 
@@ -220,6 +235,7 @@ Exit gate:
 
 ```text
 paper_pipeline/
+  paper_config.json
   00_research_logic/
     intake.md
     research_logic.md
@@ -229,6 +245,8 @@ paper_pipeline/
   03_results/
   04_reports/
   05_manuscript_zh/
+  06_review_gate/
+    author_review_checklist.md
   07_polished_submission/
     build_report.md
   pipeline_context.md
@@ -236,11 +254,11 @@ paper_pipeline/
 
 ## Routing Rules
 
-- If the user asks "is this idea a paper?", start at Stage 1.
+- If the user asks "is this idea a paper?", start at Stage 1 after creating or checking `paper_config.json`.
 - If the idea is clear but evidence is weak, start at Stage 2.
 - If the experiments exist but code/results are messy, start at Stage 3.
 - If the user wants a visual plan or shareable summary, start at Stage 4.
-- If the user has a `.tex` manuscript or asks for paper architecture, start at Stage 5.
+- If the user has a `.tex` manuscript, asks for paper architecture, or asks for author/contact metadata configuration, start at Stage 5.
 - If the user has approved the Chinese manuscript and asks for final English output, start at Stage 7 with `paper-polishing-skill`.
 - If the user has a manuscript and wants pre-final content review, start at Stage 6; after approval, continue to Stage 7.
 

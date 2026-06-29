@@ -6,6 +6,7 @@ Use this contract when generating or reviewing a managed LaTeX paper framework.
 
 ```text
 paper_latex_framework/
+  paper_config.json
   main.tex
   preamble.tex
   frontmatter.tex
@@ -25,9 +26,10 @@ paper_latex_framework/
 
 ## File Responsibilities
 
+- `paper_config.json`: root metadata source for title, short title, authors, affiliations, correspondence address/email, venue, keywords, acknowledgments, and author-review abstract.
 - `main.tex`: orchestration only. It should contain `\input{preamble}`, `\begin{document}`, `\input{frontmatter}`, section inputs, `\input{backmatter}`, and `\end{document}`.
 - `preamble.tex`: document class, numbering policy, packages, theorem definitions, and macros.
-- `frontmatter.tex`: title, authors, affiliations, date, abstract, and `\maketitle`.
+- `frontmatter.tex`: generated from or checked against `paper_config.json`; contains title, authors, affiliations, date, abstract, keywords when supported, and `\maketitle` policy.
 - `sections/*.tex`: one top-level section per file. Preserve labels and internal subsection structure.
 - `backmatter.tex`: bibliography style, bibliography command, acknowledgments, appendices, and any final material.
 - `figures/`: the single folder for all figure and image assets referenced by the generated framework unless the user asks for archival copy.
@@ -38,6 +40,7 @@ paper_latex_framework/
 
 - Generate into a new directory by default.
 - Write UTF-8 text files.
+- Create or preserve `paper_config.json` before writing frontmatter metadata.
 - Keep source prose unchanged when splitting.
 - Keep labels unchanged unless fixing duplicates with explicit user approval.
 - Keep citation keys unchanged.
