@@ -143,6 +143,17 @@ Rules:
 - Avoid raw LaTeX in SVG text because MathJax will not render it there.
 - Avoid decorative-only diagrams.
 
+## Chart and SVG Label Rules
+
+Charts must be readable without text collisions.
+
+- Reserve explicit label space before drawing bars, lines, nodes, or axes. For horizontal bar charts, keep a dedicated left label column and start the plotting area far enough to the right.
+- Do not draw shapes on top of labels. If labels and shapes share an SVG, either render labels after shapes with a non-overlapping background or, preferably, separate the label column from the plotting area.
+- Split long labels into short role/name text and secondary detail text. Do not force long labels into one SVG text node when they can overlap bars, values, ticks, or captions.
+- Keep value labels inside the SVG viewBox. If a value label may overflow the right edge, shorten it, move it inside the bar, or increase the right margin.
+- Add a caption or legend that explains label columns, color encodings, axis origin, and any scaling choices.
+- Before finishing, inspect generated SVG coordinates: text x/y ranges, plot start, axis ticks, and value labels must not occupy the same visual space.
+
 ## Table Rules
 
 Tables must be readable research artifacts.
@@ -264,7 +275,9 @@ Before finishing, verify:
 12. Model reports include a model flow diagram.
 13. Table headers use normal letter spacing and readable casing.
 14. Every meaningful visible element has a caption, legend, note, or nearby explanation.
-15. Missing evidence is marked as TODO, not implied as complete.
+15. Chart and SVG labels do not overlap bars, axes, values, nodes, captions, or nearby text.
+16. Horizontal charts reserve label columns and right margins before plotting begins.
+17. Missing evidence is marked as TODO, not implied as complete.
 
 ## Minimal Skeleton
 
