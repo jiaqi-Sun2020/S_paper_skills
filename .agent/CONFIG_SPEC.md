@@ -4,7 +4,7 @@
 
 - Project root: `D:\AI\skill\S_paper_skills`
 - Generated: 2026-06-25 16:46:16 UTC
-- Last updated: 2026-06-29
+- Last updated: 2026-07-05
 - Rule: facts are recorded from repository files; uncertain items are marked `TODO(agent)` or `inference`.
 
 ## Config Files
@@ -56,6 +56,11 @@ Only filenames are listed. Do not copy secret values.
 | `D:\AI\Anaconda\envs\py310_2\python.exe latex-paper-build-skill\scripts\create_paper_pipeline.py --help` | `README.md` / script entry point | fact |
 | `D:\AI\Anaconda\envs\py310_2\python.exe latex-paper-build-skill\scripts\scaffold_latex_paper.py --help` | `README.md` / script entry point | fact |
 | `D:\AI\Anaconda\envs\py310_2\python.exe util_skills\project-agent-generator-skill\scripts\generate_project_agents.py D:\AI\skill\S_paper_skills --out-dir .agent --force` | `util_skills/project-agent-generator-skill/SKILL.md`, user request | fact |
+
+## Encoding
+
+- Chinese manuscripts, `.tex` sources, `SKILL.md` files, and `.agent` files are UTF-8 by default.
+- On Windows, run `$env:PYTHONUTF8 = "1"` before Python commands that read or validate these files.
 
 ## Config Semantics To Confirm
 

@@ -4,7 +4,7 @@
 
 - Project root: `D:\AI\skill\S_paper_skills`
 - Generated: 2026-06-25 16:46:16 UTC
-- Last updated: 2026-06-29
+- Last updated: 2026-07-05
 - Rule: facts are recorded from repository files; uncertain items are marked `TODO(agent)` or `inference`.
 
 ## Project Summary
@@ -43,6 +43,9 @@
 - `paper-polishing-skill/` is a formal research skill for post-review manuscript translation and polishing.
 - The durable bundle rule is: draft the author-review manuscript in Chinese with PRL/PRA reasoning logic, then use `paper-polishing-skill` for Nature/PRL/PRA English finalization only after user approval.
 - This polishing stage protects claims, terminology, equations, citation keys, `.bib` management, and `figures/` layout rather than inventing missing science.
+- Whole-LaTeX-paper translation uses `paper-polishing-skill/references/latex-full-paper-translation.md`; the expected style is paragraph-level academic argumentation rather than compressed literal sentence translation.
+- Result-list consistency is a required QA step: repeated mask lists, numerical summaries, rankings, and conclusion claims must be checked against canonical tables and body evidence.
+- UTF-8 is the default encoding assumption for Chinese manuscripts, `.tex` files, skill files, and `.agent` files; Windows Python commands should set `PYTHONUTF8=1` before reading or validating them.
 
 ## Current Unknowns
 

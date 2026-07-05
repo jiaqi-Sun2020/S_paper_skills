@@ -4,7 +4,7 @@
 
 - Project root: `D:\AI\skill\S_paper_skills`
 - Generated: 2026-06-25 16:46:16 UTC
-- Last updated: 2026-06-29
+- Last updated: 2026-07-05
 - Rule: facts are recorded from repository files; uncertain items are marked `TODO(agent)` or `inference`.
 
 ## Top-Level Map
@@ -66,8 +66,9 @@ S_paper_skills/
 ## Paper Polishing Skill
 
 - `paper-polishing-skill/` is a top-level formal skill.
-- It contains `SKILL.md`, `agents/openai.yaml`, and `references/` guidance for Nature, PRL, PRA, Chinese-to-English translation, claim safety, and LaTeX preservation.
+- It contains `SKILL.md`, `agents/openai.yaml`, and `references/` guidance for Nature, PRL, PRA, Chinese-to-English translation, full-LaTeX-paper translation, UTF-8 handling, claim safety, and LaTeX preservation.
 - It is intentionally separate from `latex-paper-build-skill/`: paper-build owns manuscript structure and build mechanics; paper-polishing owns post-review language transformation and venue-specific polish.
+- `paper-polishing-skill/references/latex-full-paper-translation.md` is the stable workflow for approved whole-paper `.tex` English finalization and repeated-claim audit.
 
 ## Module Boundaries
 

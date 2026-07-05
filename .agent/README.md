@@ -4,7 +4,7 @@
 
 - Project root: `D:\AI\skill\S_paper_skills`
 - Generated: 2026-06-25 16:46:16 UTC
-- Last updated: 2026-06-29
+- Last updated: 2026-07-05
 - Rule: facts are recorded from repository files; uncertain items are marked `TODO(agent)` or `inference`.
 
 This directory contains agent-facing context for `S_paper_skills`.
@@ -22,6 +22,8 @@ Current confirmed rules:
 
 - The paper pipeline drafts Chinese author-review manuscripts first while preserving PRL/PRA reasoning logic.
 - Whole-manuscript English finalization is approval-gated and uses `paper-polishing-skill/` after the user approves the Chinese scientific content.
+- Whole-paper `.tex` English finalization uses `paper-polishing-skill/references/latex-full-paper-translation.md`, preserves source structure, and audits repeated result claims against canonical tables/figures.
+- Chinese, LaTeX, skill, and `.agent` files are treated as UTF-8 by default; on Windows, set `PYTHONUTF8=1` before running Python scripts or validators that read them.
 - Literature is managed through `.bib` files, and manuscript images live in one `figures/` folder.
 - `research-html-report` and `training-code-architecture` currently live under `util_skills/` and remain available as paper-pipeline support stages.
 

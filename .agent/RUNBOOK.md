@@ -4,7 +4,7 @@
 
 - Project root: `D:\AI\skill\S_paper_skills`
 - Generated: 2026-06-25 16:46:16 UTC
-- Last updated: 2026-06-29
+- Last updated: 2026-07-05
 - Rule: facts are recorded from repository files; uncertain items are marked `TODO(agent)` or `inference`.
 
 ## Setup / Runtime
@@ -28,6 +28,14 @@ After changes to `paper-polishing-skill/`, validate with:
 $env:PYTHONUTF8 = "1"
 D:\AI\Anaconda\envs\py310_2\python.exe C:\Users\SSS\.codex\skills\.system\skill-creator\scripts\quick_validate.py D:\AI\skill\S_paper_skills\paper-polishing-skill
 ```
+
+For whole-paper translation QA:
+
+- Read/write source `.tex`, Chinese drafts, skill files, and `.agent` files as UTF-8; set `$env:PYTHONUTF8 = "1"` before Python commands on Windows.
+- Compare section, label, ref, cite, figure, table, and equation preservation against the source.
+- Check that the English target contains no unintended Chinese prose unless the user requested bilingual output.
+- Cross-check repeated result lists and summary claims against canonical tables and body evidence before committing.
+- Compile the output `.tex` with the project build command when available, and report any remaining warnings that affect layout or references.
 
 ## Script Smoke Checks
 

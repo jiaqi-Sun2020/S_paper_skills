@@ -4,7 +4,7 @@
 
 - Project root: `D:\AI\skill\S_paper_skills`
 - Generated: 2026-06-25 16:46:16 UTC
-- Last updated: 2026-06-29
+- Last updated: 2026-07-05
 - Rule: facts are recorded from repository files; uncertain items are marked `TODO(agent)` or `inference`.
 
 ## Existing Decision Records
@@ -26,6 +26,7 @@
 - 2026-06-29: Paper-pipeline final author-review output should be Chinese while preserving PRL/PRA logic; English finalization happens after user review via `paper-polishing-skill/`.
 - 2026-06-29: All paper literature should be managed by `.bib` files, and all manuscript images should be stored under one `figures/` folder.
 - 2026-06-29: `research-html-report` and `training-code-architecture-skill` are currently placed under `util_skills/`.
+- 2026-07-05: `paper-polishing-skill/` uses paragraph-level argument translation for whole-paper English finalization, reads/writes Chinese and LaTeX sources as UTF-8 by default, and requires repeated-claim audits against canonical tables/figures before committing.
 
 ## Open Questions
 

@@ -4,7 +4,7 @@
 
 - Project root: `D:\AI\skill\S_paper_skills`
 - Generated: 2026-06-25 16:46:16 UTC
-- Last updated: 2026-06-29
+- Last updated: 2026-07-05
 - Rule: facts are recorded from repository files; uncertain items are marked `TODO(agent)` or `inference`.
 
 ## Scope
@@ -44,6 +44,10 @@ D:\AI\skill\S_paper_skills
 - For QCT/QWCT manuscripts, apply `latex-paper-build-skill/references/qct-writing-methodology.md` before drafting or revising the abstract, introduction, contribution paragraph, results framing, terminology, or claim boundary; this is a reusable methodology rule, not a one-paper patch.
 - Do not finalize a whole English manuscript before the user has reviewed and approved the Chinese scientific content, unless the user explicitly overrides this gate.
 - After user approval, use `paper-polishing-skill/` for Nature, PRL, or PRA targeted English translation and polishing.
+- For whole-paper LaTeX English finalization, read `paper-polishing-skill/references/latex-full-paper-translation.md` in addition to `translation-workflow.md` and `latex-preservation.md`.
+- Translate Chinese prose at paragraph-argument level; avoid compressed sentence-by-sentence literalism and avoid semantic drift such as `should have been sampled` or `unknown timestamps` unless supported by the source.
+- Audit repeated result claims, including mask lists, win/loss counts, macro averages, table-derived rankings, and conclusion summaries, against the canonical table before finalizing or committing.
+- Read and write Chinese manuscripts, LaTeX files, skill files, and `.agent` files as UTF-8 by default; use `PYTHONUTF8=1` for Windows Python commands that touch these files.
 - Keep all literature in `.bib` files and manuscript images in a single `figures/` folder when building or polishing LaTeX paper projects.
 
 ## Runtime / Tooling Notes
@@ -52,7 +56,7 @@ D:\AI\skill\S_paper_skills
 - Verified interpreter: Python 3.10.14.
 - If `git` is not on PATH, use `D:\software\Git\cmd\git.exe`.
 - README validation examples use `C:\Users\SSS\.codex\skills\.system\skill-creator\scripts\quick_validate.py`.
-- On Windows, set `PYTHONUTF8=1` before running the validator so UTF-8 `SKILL.md` files are not decoded as GBK.
+- On Windows, set `PYTHONUTF8=1` before running validators or repository scripts so UTF-8 Chinese, LaTeX, `SKILL.md`, and `.agent` files are not decoded as GBK.
 
 ## Likely Generated Or Large Output Directories
 

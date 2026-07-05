@@ -11,6 +11,8 @@
 - 默认给作者审核的论文稿使用中文，但行文逻辑按 PRL/PRA 标准组织：先给物理问题和核心机制，再给证据链、边界条件和可检验 claim。
 - QCT/QWCT 论文必须先应用 `latex-paper-build-skill/references/qct-writing-methodology.md`：摘要首句限定物理设置，引言解释“影响不等于可逆”，贡献表述为 keep-k 稀疏位置可观测性诊断，结果按证据强弱和边界条件组织。
 - 用户审核中文科学内容后，才使用 `paper-polishing-skill/` 做 Nature、PRL 或 PRA 风格的英文翻译、压缩和润色；除非用户明确要求跳过审核门。
+- 中文论文、LaTeX、skill 文档和 `.agent/` 文档默认按 UTF-8 读写；在 Windows 上运行 Python 验证或脚本时先设置 `PYTHONUTF8=1`，避免中文被 GBK 误解码。
+- 整篇 `.tex` 英文化使用 `paper-polishing-skill/references/latex-full-paper-translation.md`：按段落论证单元翻译，保留 LaTeX 结构，并在定稿前按表格/图/正文交叉核对 mask、数值、排名等重复结果 claim。
 - 所有文献统一由 `.bib` 文件管理；所有论文图片统一放入单一 `figures/` 文件夹。
 - 论文作者、单位、通讯地址、邮箱、关键词、致谢等基础信息统一由根目录 `paper_config.json` 管理。
 ## Skill Overview
@@ -30,7 +32,7 @@
 
 | Skill | Path | Purpose |
 |---|---|---|
-| `paper-polishing-skill` | `paper-polishing-skill/` | Post-approval manuscript translation and polishing for Nature, PRL, and PRA. In the paper pipeline, draft the author-review manuscript in Chinese first, then use this skill for final English after user approval. |
+| `paper-polishing-skill` | `paper-polishing-skill/` | Post-approval manuscript and full-LaTeX-paper translation/polishing for Nature, PRL, and PRA. It preserves claims, labels, citations, equations, UTF-8 Chinese/LaTeX handling, and bibliography/figure layout; it rewrites Chinese prose as paragraph-level academic argumentation and requires repeated result-list audits against canonical tables. |
 
 ### Utility Skills
 
@@ -191,7 +193,7 @@ research-logic
 4. 生成 HTML research brief 或 paper-style report。
 5. 将模型和实验落到可复用训练代码架构中。
 6. 整理 LaTeX 论文框架、编译路径和提交前检查。
-7. 用户审核中文稿后，再用 `paper-polishing-skill` 翻译并润色为目标期刊英文终稿。
+7. 用户审核中文稿后，再用 `paper-polishing-skill` 按段落论证链翻译并润色为目标期刊英文终稿；整篇 `.tex` 翻译需读取 UTF-8 源文档，遵循 `references/latex-full-paper-translation.md`，并核对 mask、数值、排名等重复 claim。
 
 ### Skill Creation And Maintenance
 
