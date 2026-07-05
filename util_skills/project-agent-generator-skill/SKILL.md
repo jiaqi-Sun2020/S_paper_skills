@@ -53,6 +53,12 @@ python path\to\project-agent-generator-skill\scripts\generate_project_agents.py 
    - Run lightweight syntax/test commands only when safe.
    - Report generated files and any TODOs left for the user.
 
+## Credential Safety
+
+- Do not open, print, copy, summarize, upload, or modify any suspected key, password, token, or credential file.
+- Treat filenames or paths containing `.env`, `secret`, `credential`, `token`, `password`, `passwd`, `apikey`, `api_key`, `private_key`, `id_rsa`, `.pem`, `.p12`, `.pfx`, `cookie`, or `session` as sensitive unless the user explicitly proves otherwise.
+- The generator may record that a sensitive surface exists, but it must not inspect or reproduce its contents.
+- Generated `.agents` files must carry this credential rule forward for future agents.
 ## Generation Rules
 
 - Use structured sections and tables where they make scanning easier.

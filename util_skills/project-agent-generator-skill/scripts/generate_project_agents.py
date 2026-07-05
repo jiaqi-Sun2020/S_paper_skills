@@ -48,6 +48,27 @@ OUTPUT_LIKE_DIRS = {
     "logs",
 }
 
+SENSITIVE_NAME_PATTERNS = [
+    re.compile(pattern, re.IGNORECASE)
+    for pattern in [
+        r"(^|[\\/])\.env(\..*)?$",
+        r"secret",
+        r"credential",
+        r"token",
+        r"password",
+        r"passwd",
+        r"api[_-]?key",
+        r"private[_-]?key",
+        r"id_rsa",
+        r"\.pem$",
+        r"\.p12$",
+        r"\.pfx$",
+        r"cookie",
+        r"session",
+    ]
+]
+
+
 
 @dataclass
 class ProjectFacts:
@@ -77,7 +98,20 @@ def rel(path: Path, root: Path) -> str:
     return path.relative_to(root).as_posix()
 
 
+def is_sensitive_path(path: Path) -> bool:
+    """Return True for likely key/password/token/credential files.
+
+    Never read, copy, summarize, upload, or modify these files. The generator may
+    record that a sensitive surface exists, but it must not inspect contents.
+    """
+    value = path.as_posix()
+    return any(pattern.search(value) for pattern in SENSITIVE_NAME_PATTERNS)
+
+
+
 def safe_read_text(path: Path, limit: int = 12000) -> str:
+    if is_sensitive_path(path):
+        return ""
     try:
         with path.open("r", encoding="utf-8", errors="replace") as fh:
             return fh.read(limit)
@@ -260,7 +294,7 @@ def collect_paths(root: Path, files: list[Path]) -> tuple[list[str], list[str], 
             "config" in lower or lower.startswith(("configs/", "config/"))
         ):
             configs.append(r)
-        if name.startswith(".env"):
+        if name.startswith(".env") or is_sensitive_path(path):
             envs.append(r)
         if name.lower().startswith(("readme", "contributing", "security", "license", "changelog")) or lower.startswith(
             ("docs/", "doc/")
@@ -478,6 +512,7 @@ These instructions apply to the project rooted at:
 - Read `.agents/README.md` first when joining a fresh session.
 - Prefer repository files over chat memory.
 - Do not invent project goals, commands, APIs, metrics, or config semantics.
+- Do not open, print, copy, summarize, upload, or modify any suspected key, password, token, or credential file. Record at most the filename/path and state that contents were not inspected.
 - Before changing generated outputs or large experiment/data folders, ask the user.
 - Keep edits scoped to the requested task.
 - Verify commands before documenting them as facts.
@@ -497,6 +532,7 @@ These instructions apply to the project rooted at:
 ## TODO For Project Owner
 
 - TODO(agent): add project-specific do-not-touch paths if any.
+- TODO(agent): add project-specific credential or secret store locations without exposing values.
 - TODO(agent): add required Python/Node/Go/etc. runtime versions if not already documented.
 - TODO(agent): add approval rules for long-running, destructive, network, deployment, or training commands.
 """
@@ -570,7 +606,7 @@ def render_config(f: ProjectFacts) -> str:
 
 ## Environment Files
 
-Only filenames are listed. Do not copy secret values.
+Only filenames are listed. Do not open, print, copy, summarize, upload, or modify secret values or credential files.
 
 {bullet(f.env_files, "- No environment files detected.")}
 
@@ -586,6 +622,7 @@ Only filenames are listed. Do not copy secret values.
 
 - TODO(agent): identify user-editable config fields and their valid values.
 - TODO(agent): document required environment variables without exposing secrets.
+- TODO(agent): confirm whether any credential stores must be completely excluded from generated docs.
 - TODO(agent): mark generated config files separately from source config files.
 """
 
@@ -601,6 +638,7 @@ def render_runbook(f: ProjectFacts) -> str:
 2. Check the working tree before editing.
 3. Run the smallest relevant syntax or unit-test command first.
 4. Escalate to full builds, training, migrations, deployment, or network calls only with user approval.
+5. Do not open, print, copy, summarize, upload, or modify suspected credential files.
 
 ## Long-Running Or Risky Commands
 

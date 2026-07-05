@@ -39,6 +39,7 @@ Include:
 - A notation table or short notation paragraph for coin dimension, step count, position basis, measurement probability, transfer matrix, and reconstruction variable.
 - Core problem equations: coin state, walk unitary, measurement map, vectorized linear system, inverse or regularized estimator, and fidelity metric.
 - A current-evidence table populated only with values verified from local outputs or reports.
+- Results subsections that read each planned or available figure/table in the main text: state the trend, comparison, interpretation, mechanism, and scoped caveat instead of only reporting numbers.
 - Separate sections for introduction, related work/theoretical background, method, experimental protocol, current results, next experiments, discussion/limitations, and conclusion.
 - TODO markers for missing baselines, statistics, ablations, noise robustness, figure generation, and references.
 - A BibTeX hook such as `\bibliographystyle{apsrev4-2}` and `\bibliography{references/references}`; all references must be maintained in `.bib` files.
@@ -52,14 +53,14 @@ Use this order unless the user's paper structure is more specific:
 2. QCT measurement model.
 3. Reconstruction method and numerical implementation.
 4. Experimental protocol and datasets/configurations.
-5. Results from completed experiments.
+5. Results from completed experiments, expanded as figure-by-figure and table-by-table analysis rather than a short numeric report.
 6. Planned validation and ablation experiments.
 7. Discussion, limitations, and scope of claims.
 8. Conclusion.
 
 ## Claim Discipline
 
-- Clearly distinguish completed experiments, partial experiments, and proposed next experiments.
+- Clearly distinguish completed experiments, partial experiments, and proposed next experiments, but keep repeated self-limitation out of the main throughline.
 - Do not claim scalability, superiority, robustness, or publication-grade validation unless supported by completed runs.
 - If a result comes from partial search, label it as partial and keep it out of final comparative claims.
 - Convert vague paper ideas into editable TODOs instead of inventing missing numbers.

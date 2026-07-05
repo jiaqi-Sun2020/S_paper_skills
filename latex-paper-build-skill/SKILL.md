@@ -1,6 +1,6 @@
 ---
 name: latex-paper-build-skill
-description: Build, restructure, and maintain complete research-paper delivery pipelines centered on LaTeX manuscripts. Use when Codex needs to inspect an existing .tex paper, generate a project-specific LaTeX scaffold, create a standalone editable main.tex, split a monolithic manuscript into modular files, preserve revtex/ctex/fontspec/BibTeX conventions, enforce .bib reference management and a single figures/ folder, check figure and bibliography paths, choose XeLaTeX/latexmk build commands, or orchestrate a full paper workflow from research logic, experiment design, training-code outputs, HTML research reports, config-driven paper metadata, manuscript architecture, compilation, and submission checks. Also use for QCT/QWCT coin-state tomography manuscripts derived from experiment-code outputs or research reports.
+description: Build, restructure, and maintain complete research-paper delivery pipelines centered on LaTeX manuscripts. Use when Codex needs to inspect an existing .tex paper, generate a project-specific LaTeX scaffold, create a standalone editable main.tex, split a monolithic manuscript into modular files, preserve revtex/ctex/fontspec/BibTeX conventions, enforce .bib reference management and a single figures/ folder, check figure and bibliography paths, choose XeLaTeX/latexmk build commands, or orchestrate a full paper workflow from research logic, experiment design, training-code outputs, HTML research reports, config-driven paper metadata, manuscript architecture, compilation, and submission checks. Also use for QCT/QWCT coin-state tomography manuscripts derived from experiment-code outputs or research reports, especially when the manuscript needs narrative QA for self-interrupted claims, thin result sections, or figures/tables that are not sufficiently read in the main text.
 ---
 
 # LaTeX Paper Build Skill
@@ -24,6 +24,7 @@ Inside `S_paper_skills`, paper-pipeline author-review output defaults to Chinese
    - If the paper needs authors, affiliations, corresponding address, contact email, keywords, venue, or acknowledgments configured centrally, read `references/paper-config.md`.
    - If the user asks for a complete standalone `main.tex`, a fresh QCT/QWCT framework, or a manuscript based on `QCT_run_all` experiment outputs, read `references/qct-standalone-maintex.md`.
    - If drafting or revising the QCT/QWCT abstract, introduction, contribution, results framing, terminology, or claim boundary, read `references/qct-writing-methodology.md`.
+   - If the user reports that the main line is repeatedly interrupted by self-limiting caveats, that results only list numbers, or that figures/tables carry evidence the main text does not read, read `references/qct-writing-methodology.md` even if the visible task is a LaTeX scaffold or `main.tex` rebuild.
 
 2. Choose the operation.
    - Full paper pipeline: read `references/paper-pipeline.md` and use the sibling skills listed there when available.
@@ -54,6 +55,7 @@ Inside `S_paper_skills`, paper-pipeline author-review output defaults to Chinese
    - For generated LaTeX frameworks, prefer:
      `latexmk -xelatex -bibtex -interaction=nonstopmode -file-line-error -outdir=build main.tex`
    - If `latexmk` is unavailable, use `xelatex`, `bibtex`, `xelatex`, `xelatex`.
+   - For QCT/QWCT manuscript regeneration, run a narrative QA pass before finalizing: check main-line continuity, result-section interpretation depth, and whether each figure/table is explicitly read in the main text rather than left to carry the argument alone.
 
 ## Script Entry Point
 
@@ -94,6 +96,16 @@ Useful options:
 - Treat inline `thebibliography` in generated frameworks as bibliography drift; migrate it to `.bib`.
 - Treat generated figure paths outside `figures/` as layout drift; copy the asset into `figures/` and rewrite the path when the file is available.
 - Do not silently convert Chinese text encodings. Read as UTF-8 first, then fall back to `gb18030`/`cp936`; write generated framework files as UTF-8.
+
+
+## Narrative QA Rules
+
+Apply these rules whenever generating or revising the scientific content of a QCT/QWCT manuscript, not only when editing prose by hand:
+
+- Preserve a clear positive throughline. Put scope limits in designated boundary paragraphs, discussion, or limitations, rather than interrupting every claim with defensive caveats. A scoped claim should still read as a claim.
+- Expand results as analysis, not as a numeric ledger. Each major result paragraph should state the question, describe the comparison, interpret the trend, connect it to the walk/measurement mechanism, and only then give representative numbers.
+- Read every figure and table in the main text. Captions and tables are not substitutes for prose interpretation. For each figure/table, the main text should identify the axes or columns, the dominant trend, the key comparison, the scientific implication, and any local caveat.
+- When rebuilding `main.tex`, create enough result-section scaffolding for figure-by-figure reading paragraphs, even if some numeric slots remain TODOs.
 
 
 ## Research Writing Workflow Borrowing
