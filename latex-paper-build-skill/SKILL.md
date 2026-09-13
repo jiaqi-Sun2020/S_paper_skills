@@ -51,7 +51,7 @@ Inside `S_paper_skills`, paper-pipeline author-review output defaults to Chinese
 4. Validate the result.
    - Run `python -m py_compile scripts/scaffold_latex_paper.py` after script edits.
    - Run the skill validator after skill edits:
-     `python C:\Users\SSS\.codex\skills\.system\skill-creator\scripts\quick_validate.py <skill-dir>`
+     `python (Join-Path ([Environment]::GetFolderPath('UserProfile')) '.codex\skills\.system\skill-creator\scripts\quick_validate.py') "<skill-dir>"`
    - For generated LaTeX frameworks, prefer:
      `latexmk -xelatex -bibtex -interaction=nonstopmode -file-line-error -outdir=build main.tex`
    - If `latexmk` is unavailable, use `xelatex`, `bibtex`, `xelatex`, `xelatex`.
@@ -117,12 +117,10 @@ When this skill lives inside a skill bundle such as `S_paper_skills`, treat sibl
 
 - `../research-logic-skill/SKILL.md` for contribution logic and mechanism-level claims.
 - `../experiment-design-skill/SKILL.md` for paper-grade validation plans.
-- `../util_skills/training-code-architecture-skill/SKILL.md` for reusable experiment code architecture and result contracts.
 - `../util_skills/research-html-report/SKILL.md` for shareable research briefs and publication-style HTML reports.
 - `../paper-polishing-skill/SKILL.md` for post-approval Chinese-to-English translation and Nature/PRL/PRA manuscript polishing.
 - `references/paper-config.md` for config-driven title, author, affiliation, correspondence, keyword, acknowledgment, and abstract metadata.
 - `references/qct-writing-methodology.md` for reusable QCT/QWCT abstract, introduction, contribution, result-framing, terminology, and claim-boundary methodology.
-- `../util_skills/skill-audit-refactor/SKILL.md` when the pipeline skill itself needs pruning or restructuring.
 
 Do not copy all sibling skill instructions into context by default. Use `references/paper-pipeline.md` as the routing contract.
 

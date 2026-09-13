@@ -108,8 +108,6 @@ Exit gate:
 
 ## Stage 3: Training Code and Results
 
-Sibling skill: `../util_skills/training-code-architecture-skill/SKILL.md`
-
 Use when creating or standardizing experiment code.
 
 Artifacts:

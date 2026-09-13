@@ -1,6 +1,6 @@
 # QWCT/QWTA Paper Profile
 
-Use this profile when working on `D:\AI\Quantum\QCT_code\paper\2026_06_17` or a paper that follows the same Quantum Walk Temporal Architecture style.
+Use this profile when working on a paper that follows the same Quantum Walk Temporal Architecture style.
 
 Observed on 2026-06-24:
 

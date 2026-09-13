@@ -1,6 +1,6 @@
 # S Paper Skills
 
-`S_paper_skills` 是一组本地 Codex skills，用来支持研究想法打磨、论文实验设计、训练代码架构、研究报告生成、LaTeX 论文交付，以及 skill 本身的创建和维护。
+`S_paper_skills` 是一组本地 Codex skills，用来支持研究想法打磨、论文实验设计、研究报告生成、LaTeX 论文交付、PRL 专项审稿准备，以及项目内 skill 的创建。
 
 这些 skills 的默认应用场景是机器学习与科研论文工作流，例如图学习、物理启发模型、时序建模、多模态方法、优化算法和系统类方法。CTQW 与动态图神经网络只是其中一个应用示例，不是本仓库的唯一目标。
 
@@ -11,6 +11,7 @@
 - 默认给作者审核的论文稿使用中文，但行文逻辑按 PRL/PRA 标准组织：先给物理问题和核心机制，再给证据链、边界条件和可检验 claim。
 - QCT/QWCT 论文必须先应用 `latex-paper-build-skill/references/qct-writing-methodology.md`：摘要首句限定物理设置，引言解释“影响不等于可逆”，贡献表述为 keep-k 稀疏位置可观测性诊断，结果按证据强弱和边界条件组织。
 - 用户审核中文科学内容后，才使用 `paper-polishing-skill/` 做 Nature、PRL 或 PRA 风格的英文翻译、压缩和润色；除非用户明确要求跳过审核门。
+- 面向 PRL 投稿时，再使用 `prl-manuscript-polisher` 执行当前 APS 规则核验、PRL fit、word-equivalent、claim–evidence、REVTeX 和可追踪 LaTeX 修改审计；投稿前必须重新核对 APS 官方页面。
 - 中文论文、LaTeX、skill 文档和 `.agent/` 文档默认按 UTF-8 读写；在 Windows 上运行 Python 验证或脚本时先设置 `PYTHONUTF8=1`，避免中文被 GBK 误解码。
 - 整篇 `.tex` 英文化使用 `paper-polishing-skill/references/latex-full-paper-translation.md`：按段落论证单元翻译，保留 LaTeX 结构，并在定稿前按表格/图/正文交叉核对 mask、数值、排名等重复结果 claim。
 - 所有文献统一由 `.bib` 文件管理；所有论文图片统一放入单一 `figures/` 文件夹。
@@ -25,7 +26,6 @@
 | `experiment-design` | `experiment-design-skill/` | 将模型想法转化为论文级实验设计，包括 research questions、datasets、baselines、ablations、metrics、mechanism checks 和 claim boundaries。 |
 | `data-analysis` | `data-analsys-skill/` | 分析实验数据和论文结果，包含完整性检查、统计检验、effect size、confidence interval 和 claim 支撑边界。 |
 | `research-html-report` | `util_skills/research-html-report/` | 将研究逻辑、创新点、实验设计、风险边界和下一步计划整理成独立 HTML research brief 或 publication-style report。 |
-| `training-code-architecture` | `util_skills/training-code-architecture-skill/` | 生成或重构可复用的机器学习训练代码架构，强调 config-driven training、factories、adapters、checkpoint、logs 和 CSV results。 |
 | `latex-paper-build-skill` | `latex-paper-build-skill/` | 将已有 `.tex` 论文或新论文项目整理成完整 LaTeX manuscript framework 和 paper delivery pipeline。 |
 
 ### Polishing Skills
@@ -39,8 +39,7 @@
 | Skill | Path | Purpose |
 |---|---|---|
 | `interactive-skill-builder` | `util_skills/interactive-skill-builder/` | 通过作者访谈、规格确认和预创建审核来创建或更新 Codex skill。 |
-| `skill-audit-refactor` | `util_skills/skill-audit-refactor/` | 审核、精简、重构或拆分已有 skill，减少上下文占用，同时保留关键能力。 |
-| `project-agent-generator-skill` | `util_skills/project-agent-generator-skill/` | 为陌生项目生成 `.agents/` 或 `.agent/` 上下文目录，包含 AGENTS、项目背景、架构、配置、运行手册和决策记录。 |
+| `prl-manuscript-polisher` | `util_skills/prl-manuscript-polisher/` | 对技术上完整的物理论文执行 PRL fit、长度、证据、结构、语言、REVTeX 和投稿就绪度审计，并可生成可追踪 LaTeX 修改。 |
 
 ## Skill Details
 
@@ -92,25 +91,6 @@
 - 生成可打印的论文计划页或预印本风格 HTML；
 - 将 `research-logic` 与 `experiment-design` 的输出可视化。
 
-### `training-code-architecture`
-
-用于设计或生成可复用的机器学习训练代码架构。它保留 architecture，而不绑定某个具体任务、模型或数据集。
-
-核心约定：
-
-- `main.py -> train(args)` 的薄入口；
-- config-driven training；
-- factories 负责模型、优化器和调度器构造；
-- adapters 隔离任务相关的数据、forward、loss 和 metrics；
-- 统一保存 checkpoint、logs、config copy 和 CSV results；
-- 通过 adapters 兼容 static graph、dynamic graph、sequence modeling、classification 或 regression 等任务。
-
-常用命令：
-
-```powershell
-python util_skills\training-code-architecture-skill\scripts\create_project.py --help
-```
-
 ### `latex-paper-build-skill`
 
 用于把研究想法或已有 `.tex` 论文整理成完整论文交付 pipeline。它负责 LaTeX 架构、单体论文拆分、REVTeX/ctex/fontspec/BibTeX 约定、figure/bib 路径检查、XeLaTeX/latexmk 编译，以及提交前机械检查。
@@ -140,34 +120,17 @@ python latex-paper-build-skill\scripts\scaffold_latex_paper.py --source path\to\
 - 创建前需要确认 destination、trigger、references/scripts/assets 和验证计划；
 - 更新 README 或 skill bundle 索引时，需要保持目录、frontmatter 和说明一致。
 
-### `skill-audit-refactor`
+### `prl-manuscript-polisher`
 
-用于审核、精简、重构或拆分其他 Codex skills。它关注 context cost、trigger 质量、资源拆分和验证完整性。
-
-适合问题：
-
-- 某个 skill 是否太长、太宽泛或重复；
-- `description` 是否能正确触发；
-- 是否需要拆分成多个 skill；
-- 哪些内容应保留在 `SKILL.md`，哪些应移动到 `references/`、`scripts/` 或 `assets/`；
-- 精简后如何验证能力没有下降。
-
-### `project-agent-generator-skill`
-
-用于给陌生代码项目生成 agent-facing 上下文包，帮助后续 Codex/AI agent 不依赖聊天记录也能接手项目。默认输出 `.agents/`，包含 `AGENTS.md`、`PROJECT_CONTEXT.md`、`ARCHITECTURE.md`、`CONFIG_SPEC.md`、`RUNBOOK.md`、`DECISIONS.md` 和 `README.md`；如果用户明确要求，也可生成 `.agent/`。
+用于把技术上完整的物理论文工程化为证据克制、面向广泛物理读者且符合 PRL 约束的 Letter。它先检查科学定义、中心 claim 与证据，再处理内容取舍、长度预算、语言和 LaTeX，不会为了“更有冲击力”而扩大结论。
 
 适合问题：
 
-- 给一个陌生项目生成 agent onboarding 文件；
-- 把项目架构、运行命令、配置入口和决策记录沉淀到仓库；
-- 为未来会话保留稳定项目上下文；
-- 刷新已有 `.agents/` 文档并检查命令、路径和推断是否可信。
-
-常用命令：
-
-```powershell
-python util_skills\project-agent-generator-skill\scripts\generate_project_agents.py path\to\project --out-dir .agents --force
-```
+- 判断论文是否满足 PRL 的重要性、创新性、广泛兴趣和篇幅要求；
+- 把正文元素标记为 KEEP-CORE、COMPRESS-CORE、MOVE-END、MOVE-SM 或 DELETE；
+- 生成 `PRL_AUDIT.md`、`PRL_CONTENT_MAP.md`、执行清单、修改稿和 changelog；
+- 在保留公式、标签、引用和环境的前提下生成 `latexdiff`、`\rev{...}` 或逐项变更说明；
+- 使用 `scripts/audit_tex.py` 进行章节字数、浮动体、公式、重复标签和风格风险预检。
 
 ## Recommended Workflows
 
@@ -180,9 +143,9 @@ research-logic
 -> experiment-design
 -> data-analysis
 -> research-html-report
--> training-code-architecture
 -> latex-paper-build-skill
 -> paper-polishing-skill (after user approval)
+-> prl-manuscript-polisher (for PRL submission)
 ```
 
 含义：
@@ -191,9 +154,9 @@ research-logic
 2. 设计能支撑论文 claim 的实验方案。
 3. 分析实验数据、统计显著性、效应量、置信区间和 claim 支撑边界。
 4. 生成 HTML research brief 或 paper-style report。
-5. 将模型和实验落到可复用训练代码架构中。
-6. 整理 LaTeX 论文框架、编译路径和提交前检查。
-7. 用户审核中文稿后，再用 `paper-polishing-skill` 按段落论证链翻译并润色为目标期刊英文终稿；整篇 `.tex` 翻译需读取 UTF-8 源文档，遵循 `references/latex-full-paper-translation.md`，并核对 mask、数值、排名等重复 claim。
+5. 整理 LaTeX 论文框架、编译路径和提交前检查。
+6. 用户审核中文稿后，再用 `paper-polishing-skill` 按段落论证链翻译并润色为目标期刊英文终稿；整篇 `.tex` 翻译需读取 UTF-8 源文档，遵循 `references/latex-full-paper-translation.md`，并核对 mask、数值、排名等重复 claim。
+7. 若目标期刊是 PRL，最后用 `prl-manuscript-polisher` 重新核验当前 APS 规则、中心物理结论、word-equivalent、End Matter/SM 边界、REVTeX 与可访问性。
 
 ### Skill Creation And Maintenance
 
@@ -201,15 +164,13 @@ research-logic
 
 ```text
 interactive-skill-builder
--> skill-audit-refactor
 -> quick_validate.py
 ```
 
 含义：
 
 1. 通过作者访谈形成 skill 规格，并要求明确确认。
-2. 用审核视角检查 scope、trigger、资源结构和验证计划。
-3. 运行官方 validator，确保新增或修改后的 skill 可被 Codex 正确识别。
+2. 运行官方 validator，确保新增或修改后的 skill 可被 Codex 正确识别。
 
 ## Directory Structure
 
@@ -241,22 +202,15 @@ S_paper_skills/
     |   |-- SKILL.md
     |   |-- agents/openai.yaml
     |   `-- references/
-    |-- research-html-report/
-    |   |-- SKILL.md
-    |   `-- agents/openai.yaml
-    |-- training-code-architecture-skill/
+    |-- prl-manuscript-polisher/
     |   |-- SKILL.md
     |   |-- README.md
-    |   |-- scripts/create_project.py
-    |   `-- templates/
-    |-- skill-audit-refactor/
+    |   |-- references/prl-rules.md
+    |   |-- scripts/audit_tex.py
+    |   `-- templates/execution-checklist.md
+    `-- research-html-report/
     |   |-- SKILL.md
     |   `-- agents/openai.yaml
-    `-- project-agent-generator-skill/
-        |-- SKILL.md
-        |-- agents/openai.yaml
-        |-- scripts/generate_project_agents.py
-        `-- references/
 ```
 
 ## Validation
@@ -264,20 +218,20 @@ S_paper_skills/
 修改或新增 skill 后，运行：
 
 ```powershell
-python C:\Users\SSS\.codex\skills\.system\skill-creator\scripts\quick_validate.py D:\AI\skill\S_paper_skills\<skill-folder>
+$validator = Join-Path ([Environment]::GetFolderPath('UserProfile')) '.codex\skills\.system\skill-creator\scripts\quick_validate.py'
+python $validator ".\<skill-folder>"
 ```
 
 示例：
 
 ```powershell
-python C:\Users\SSS\.codex\skills\.system\skill-creator\scripts\quick_validate.py D:\AI\skill\S_paper_skills\data-analsys-skill
-python C:\Users\SSS\.codex\skills\.system\skill-creator\scripts\quick_validate.py D:\AI\skill\S_paper_skills\latex-paper-build-skill
-python C:\Users\SSS\.codex\skills\.system\skill-creator\scripts\quick_validate.py D:\AI\skill\S_paper_skills\paper-polishing-skill
-python C:\Users\SSS\.codex\skills\.system\skill-creator\scripts\quick_validate.py D:\AI\skill\S_paper_skills\util_skills\research-html-report
-python C:\Users\SSS\.codex\skills\.system\skill-creator\scripts\quick_validate.py D:\AI\skill\S_paper_skills\util_skills\training-code-architecture-skill
-python C:\Users\SSS\.codex\skills\.system\skill-creator\scripts\quick_validate.py D:\AI\skill\S_paper_skills\util_skills\interactive-skill-builder
-python C:\Users\SSS\.codex\skills\.system\skill-creator\scripts\quick_validate.py D:\AI\skill\S_paper_skills\util_skills\skill-audit-refactor
-python C:\Users\SSS\.codex\skills\.system\skill-creator\scripts\quick_validate.py D:\AI\skill\S_paper_skills\util_skills\project-agent-generator-skill
+$validator = Join-Path ([Environment]::GetFolderPath('UserProfile')) '.codex\skills\.system\skill-creator\scripts\quick_validate.py'
+python $validator ".\data-analsys-skill"
+python $validator ".\latex-paper-build-skill"
+python $validator ".\paper-polishing-skill"
+python $validator ".\util_skills\research-html-report"
+python $validator ".\util_skills\interactive-skill-builder"
+python $validator ".\util_skills\prl-manuscript-polisher"
 ```
 
 如果新增脚本，也应运行对应的语法或 smoke test，例如：
@@ -291,7 +245,7 @@ python -m py_compile latex-paper-build-skill\scripts\create_paper_pipeline.py
 - `SKILL.md` 的 `name` 使用小写字母、数字和 hyphen，例如 `research-logic`。
 - 文件夹名可以带 `-skill` 后缀；新增 skill 时优先让文件夹名与 `name` 保持一致。
 - `description` 应说明能力和触发场景，不要只写泛泛的用途。
-- 通用维护类 skill 放在 `util_skills/` 下。
+- 项目内支持类 skill 可以放在 `util_skills/` 下。
 
 ## Maintenance Notes
 
@@ -299,7 +253,7 @@ python -m py_compile latex-paper-build-skill\scripts\create_paper_pipeline.py
 - 大段参考资料放到 `references/`，不要塞进 `SKILL.md`。
 - 可复用脚本放到 `scripts/`，模板文件放到 `templates/` 或 `assets/`。
 - 创建新 skill 时优先使用 `util_skills/interactive-skill-builder/`，先完成作者访谈、规格确认和预创建审核。
-- 审核或精简已有 skill 时使用 `util_skills/skill-audit-refactor/`。
+- PRL 数值限制和投稿要求属于可变外部规则；每次投稿审计都要重新检查 `prl-manuscript-polisher` 中列出的 APS 官方来源。
 - 更新 README 时，同步检查实际目录、`SKILL.md` frontmatter、资源文件和可用命令是否一致。
 
 ## License
